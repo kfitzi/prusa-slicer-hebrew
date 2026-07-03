@@ -1,1 +1,394 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PrusaSlicer מדריך הגדרות בעברית</title>
+    <style>
+        :root {
+            --primary-orange: #e76f51;
+            --dark-bg: #2b2d42;
+            --panel-bg: #1d1e2c;
+            --text-main: #edf2f4;
+            --text-muted: #8d99ae;
+            --accent-green: #2a9d8f;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-main);
+            margin: 0;
+            padding: 20px;
+        }
 
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid var(--primary-orange);
+            padding-bottom: 10px;
+        }
+
+        h1 { margin: 0; color: var(--primary-orange); }
+        
+        .main-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+
+        .main-tab-btn {
+            background-color: var(--panel-bg);
+            color: var(--text-main);
+            border: 2px solid var(--text-muted);
+            padding: 10px 20px;
+            cursor: pointer;
+            font-weight: bold;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: 0.2s;
+        }
+
+        .main-tab-btn.active {
+            background-color: var(--primary-orange);
+            border-color: var(--primary-orange);
+        }
+
+        .container {
+            display: flex;
+            gap: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .sidebar {
+            flex: 1;
+            background-color: var(--panel-bg);
+            padding: 15px;
+            border-radius: 8px;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        .sub-tab-btn {
+            display: block;
+            width: 100%;
+            text-align: right;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            padding: 10px;
+            cursor: pointer;
+            font-size: 15px;
+            border-bottom: 1px solid #3d405b;
+            transition: 0.2s;
+        }
+
+        .sub-tab-btn:hover, .sub-tab-btn.active {
+            color: var(--primary-orange);
+            background-color: rgba(231, 111, 81, 0.1);
+            font-weight: bold;
+        }
+
+        .content-area {
+            flex: 3;
+            background-color: var(--panel-bg);
+            padding: 20px;
+            border-radius: 8px;
+            min-height: 500px;
+        }
+
+        .grid-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .grid-row {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            border-bottom: 1px solid #3d405b;
+            padding: 12px 5px;
+            align-items: center;
+        }
+
+        .grid-header {
+            background-color: #3d405b;
+            font-weight: bold;
+            color: var(--primary-orange);
+            border-radius: 4px;
+        }
+
+        .setting-name {
+            font-weight: bold;
+            color: var(--text-main);
+            cursor: help;
+            position: relative;
+            display: inline-block;
+            padding: 5px;
+            border-radius: 4px;
+            transition: 0.2s;
+        }
+
+        .setting-name:hover {
+            background-color: rgba(42, 157, 143, 0.2);
+            color: var(--accent-green);
+        }
+
+        /* Tooltip styling */
+        .tooltip {
+            visibility: hidden;
+            width: 320px;
+            background-color: #f4f1de;
+            color: #2b2d42;
+            text-align: right;
+            border-radius: 8px;
+            padding: 15px;
+            position: absolute;
+            z-index: 10;
+            bottom: 125%;
+            right: 0;
+            box-shadow: 0px 4px 15px rgba(0,0,0,0.5);
+            opacity: 0;
+            transition: opacity 0.3s;
+            border: 3px solid var(--primary-orange);
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .tooltip::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            right: 20px;
+            border-width: 8px;
+            border-style: solid;
+            border-color: var(--primary-orange) transparent transparent transparent;
+        }
+
+        .setting-name:hover .tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .tooltip-title {
+            font-weight: bold;
+            color: var(--primary-orange);
+            margin-bottom: 8px;
+            border-bottom: 1px solid #2b2d42;
+            padding-bottom: 3px;
+        }
+
+        .tooltip-example {
+            margin-top: 10px;
+            background-color: rgba(231, 111, 81, 0.15);
+            padding: 8px;
+            border-left: 3px solid var(--primary-orange);
+            border-radius: 4px;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>PrusaSlicer - מילון הגדרות חכם בעברית</h1>
+    <p>עבור עם העכבר מעל שם ההגדרה כדי לפתוח הסבר ודוגמה מעשית</p>
+</header>
+
+<div class="main-tabs">
+    <button class="main-tab-btn active" onclick="switchMainTab('print')">הגדרות הדפסה (Print Settings)</button>
+    <button class="main-tab-btn" onclick="switchMainTab('filament')">הגדרות פילמנט (Filament Settings)</button>
+    <button class="main-tab-btn" onclick="switchMainTab('printer')">הגדרות מדפסת (Printer Settings)</button>
+</div>
+
+<div class="container">
+    <div class="sidebar" id="sidebar-menu">
+        <!-- קטגוריות משנה ייטענו כאן דינמית -->
+    </div>
+    <div class="content-area">
+        <div class="grid-row grid-header">
+            <div>שם ההגדרה (אנגלית / עברית)</div>
+            <div>הנחיות מהירות למסך</div>
+        </div>
+        <div id="settings-list">
+            <!-- הגדרות ייטענו כאן -->
+        </div>
+    </div>
+</div>
+
+<script>
+    // מסד הנתונים המלא שבנינו יחד
+    const database = {
+        print: {
+            title: "הגדרות הדפסה",
+            subtabs: {
+                layers: {
+                    title: "שכבות והיקפים (Layers & Perimeters)",
+                    data: [
+                        { name: "Layer height / גובה שכבה", desc: "העובי של כל שכבת הדפסה. מספר קטן ייתן רזולוציה חלקה ואיכותית, אבל ההדפסה תיקח יותר זמן.", ex: "אם מדפיסים מחזיק מפתחות של אמוניט עם פרטים קטנים, כדאי 0.12 מ\"מ. לחלק פשוט אפשר 0.28 מ\"מ." },
+                        { name: "First layer height / גובה שכבה ראשונה", desc: "עובי השכבה הראשונה שנדבקת למשטח. לרוב מגדירים אותה עבה יותר משאר השכבות כדי להבטיח אחיזה טובה למשטח ההדפסה ולפצות על חוסר איזון קל במיטה.", ex: "כמעט תמיד נשאיר על 0.2 מ\"מ, גם אם מדפיסים ברזולוציה גבוהה, כדי למנוע ניתוק של המודל מהמשטח באמצע העבודה." },
+                        { name: "Perimeters / קירות (היקף)", desc: "מספר קווי המתאר שיוצרים את המעטפת החיצונית של המודל.", ex: "למודל ליופי על המדף מספיק 2 קירות. לחלק שצריך להיות חזק ועמיד באופניים, כדאי לשים 4 קירות או יותר." },
+                        { name: "Spiral vase / מצב אגרטל (ספירלה)", desc: "מדפיס את המודל מקו מתאר (קיר) אחד בודד ורציף שעולה בספירלה, ללא תפרים וללא מילוי פנימי. המודל יוצא חלול ודק.", ex: "מעולה להדפסת מודלים דקורטיביים כמו אהילים. לא מתאים בכלל לחלקי חילוף לאופני הרים או חלקים מ-PETG ו-ABS שדורשים קשיחות מבנית." },
+                        { name: "Minimum shell thickness / עובי מעטפת מינימלי", desc: "הגדרה שמוודאת שהגג והרצפה של המודל לא יהיו דקים מדי. התוכנה תוסיף שכבות מלאות באופן אוטומטי כדי להגיע לעובי המילימטרי שהגדרת כאן.", ex: "לחלק שצריך לעמוד בתנאי שטח על האופניים, הגדרה של לפחות 1 מ\"מ תבטיח שהמעטפת העליונה והתחתונה שלו יהיו אטומות וקשיחות." },
+                        { name: "Extra perimeters if needed / קירות נוספים לפי הצורך", desc: "נותן אישור לתוכנה להוסיף קירות פנימיים באופן אוטומטי באזורים שיש בהם שיפועים חדים, כדי למנוע חורים במעטפת של המודל.", ex: "אם מדפיסים חלק עם שיפוע אלכסוני חזק, התוכנה תעבה את הפלסטיק מבפנים כדי שהקיר החיצוני לא יקרוס." }
+                    ]
+                },
+                infill: {
+                    title: "מילוי (Infill)",
+                    data: [
+                        { name: "Fill density / צפיפות המילוי", desc: "אחוז הפלסטיק שייבנה בתוך המודל. 0% זה חלול, 100% זה גוש מלא.", ex: "מודל פשוט יכול להיות עם 10% מילוי. לחלק מכני שצריך לעמוד בעומס כדאי 40% ומעלה." },
+                        { name: "Fill pattern / צורת המילוי", desc: "התבנית ההנדסית של רשת המילוי הפנימית.", ex: "תבנית 'Gyroid' מומלצת לחלקים חזקים מ-PETG כי היא חזקה בכל הכיוונים. 'Grid' מצוין ומהיר לדברים פשוטים." },
+                        { name: "Length of the infill anchor / אורך עוגן המילוי", desc: "כמה מילימטרים קווי המילוי ייכנסו לתוך הקירות הפנימיים כדי \"להיאחז\" בהם.", ex: "משפר משמעותית את החוזק המבני של חלקי אופני הרים כדי שהמילוי לא יתנתק מהקיר תחת לחץ." }
+                    ]
+                },
+                skirt_brim: {
+                    title: "חצאית ושוליים (Skirt & Brim)",
+                    data: [
+                        { name: "Loops (minimum) / לולאות (מינימום)", desc: "מסגרת של חוט פלסטיק שהמדפסת מציירת מסביב למודל לפני תחילת ההדפסה, כדי לנקות את הדיזה ולוודא זרימה תקינה.", ex: "כדאי להגדיר לפחות לולאה 1 או 2 כדי שהפלסטיק יזרום חלק ונקי לפני שהמדפסת מתחילה לבנות בפועל מחזיק מפתחות של אמוניט." },
+                        { name: "Brim type / סוג שוליים", desc: "קובע איפה יודפס משטח ההדבקה הנוסף שעוזר לעגן את המודל למשטח (בחוץ, בפנים, או גם וגם).", ex: "'Outer brim only' (רק בחוץ) הוא הנפוץ ביותר ועוזר למנוע מהמודל להתרומם ולהתעקם בפינות (Warping)." },
+                        { name: "Brim width / רוחב השוליים", desc: "העובי במילימטרים של משטח ההדבקה שייבנה מסביב לבסיס המודל.", ex: "לחלקים גבוהים וצרים מ-PETG שעלולים ליפול עקב תנודות המדפסת, כדאי להגדיר לפחות 5 מ\"מ כדי לייצב אותם. כשההגדרה על 0, לא יודפסו שוליים בכלל." }
+                    ]
+                },
+                supports: {
+                    title: "חומר תמיכה (Support Material)",
+                    data: [
+                        { name: "Generate support material / יצירת חומר תמיכה", desc: "מתג ההפעלה או הכיבוי הראשי להדפסת תמיכות למודל.", ex: "חובה לסמן ב-V אם מדפיסים חלק שיש בו זוויות קשות שמרחפות באוויר ועלולות ליפול ללא בסיס מתחתיהן." },
+                        { name: "Style / סגנון התמיכה", desc: "משנה את כל המבנה והצורה של התמיכות.", ex: "סגנון 'Organic' (אורגני) מומלץ מאוד – הוא יוצר ענפים דמויי עץ שצורכים פחות חומר, מושלמים למבנים טבעיים כמו מחזיקי מפתחות של אמוניט, ונושרים בקלות." },
+                        { name: "Support on build plate only / תמיכות רק על משטח ההדפסה", desc: "מאלץ את התוכנה לבנות תמיכות שמתחילות אך ורק ממיטת ההדפסה, ואוסר עליה לבנות תמיכות שצומחות מתוך המודל עצמו.", ex: "קריטי כשמדפיסים תתושבות לאופניים עם חורים שפונים פנימה. זה מונע מילוי של חורי הברגים בפלסטיק שקשה לחלץ החוצה." }
+                    ]
+                },
+                speed: {
+                    title: "מהירות (Speed)",
+                    data: [
+                        { name: "External perimeters / קירות חיצוניים", desc: "מהירות ההדפסה של הקיר החיצוני והנראה לעין של המודל.", ex: "זהו הקיר החשוב ביותר למראה הסופי. מהירות איטית יותר מבטיחה גימור חלק ויפה ללא סימנים." },
+                        { name: "Top solid infill / מילוי מלא עליון", desc: "מהירות ההדפסה של השכבה העליונה והחשופה ביותר (\"הגג\") של המודל.", ex: "כדי לקבל גימור פני שטח חלק ואחיד במחזיקי המפתחות שנמכרים בדוכן, חובה להדפיס שכבה זו לאט (סביב 100 מ\"מ/שנייה ומטה)." }
+                    ]
+                },
+                advanced: {
+                    title: "מתקדם (Advanced)",
+                    data: [
+                        { name: "Top solid infill width / רוחב מילוי מלא עליון", desc: "רוחב הקו עבור השכבה העליונה והחשופה ביותר.", ex: "הגדרת ערך נמוך יותר (למשל 0.42 מ\"מ לדיזה 0.4 מ\"מ) בשכבה האחרונה הזו מאפשרת קווי גמר דקים וחלקים יותר במחזיקי מפתחות של אמוניט." },
+                        { name: "Elephant foot compensation / פיצוי רגל פיל", desc: "מכווץ מעט פנימה את קווי הקירות החיצוניים בשכבה הראשונה בלבד, כדי למנוע יצירת בליטה לא רצויה שנוצרת כתוצאה מהלחץ של הראש על השכבה הראשונה.", ex: "ערך של 0.2 מ\"מ נותן פיצוי טוב כברירת מחדל ומבטיח שהבסיס של המודל ייצא נקי ויפה ללא בליטות רחבות." }
+                    ]
+                }
+            }
+        },
+        filament: {
+            title: "הגדרות פילמנט",
+            subtabs: {
+                filament_general: {
+                    title: "מאפיינים כלליים (Filament)",
+                    data: [
+                        { name: "Extrusion multiplier / מכפיל הוצאת חומר (Flow)", desc: "כיוונון עדין של כמות הפלסטיק שיוצאת מהדיזה. משמש לפיצוי על הבדלים בין חומרים.", ex: "ל-PLA נשאיר על 1. לחומרים גמישים כמו TPU שלפעמים \"מחליקים\" בתוך המנגנון, נהוג להעלות את המספר (למשל ל-1.05) כדי לפצות על כך." },
+                        { name: "Cost / עלות (כסף/ק\"ג)", desc: "כמה עלה לך לקנות קילו אחד של הפלסטיק הזה.", ex: "אם תכתוב כאן כמה עלה הגליל, התוכנה תחשב לך באופן אוטומטי כמה אגורות עולה להדפיס כל חלק. זה מעולה בשביל לדעת איך לתמחר את מחזיקי המפתחות שאתה מדפיס." }
+                    ]
+                },
+                temperature: {
+                    title: "טמפרטורה (Temperature)",
+                    data: [
+                        { name: "Nozzle - First layer / דיזה - שכבה ראשונה", desc: "רמת החום של ראש ההדפסה אך ורק עבור השכבה הראשונה שנוגעת במשטח.", ex: "לרוב נגדיר אותה חמה יותר (למשל 210 מעלות ב-PLA) כדי שהפלסטיק יימס טוב ויידבק חזק מאוד למיטה." },
+                        { name: "Bed - First layer / מיטה - שכבה ראשונה", desc: "החום של משטח ההדפסה למטה, עבור השכבה הראשונה.", ex: "60 מעלות שומר על ה-PLA חמים כדי שלא יתכווץ ויתנתק. עבור חומרים חזקים כמו ABS או PETG לאופניים נצטרך טמפרטורה גבוהה בהרבה (80-100 מעלות)." }
+                    ]
+                },
+                cooling: {
+                    title: "קירור (Cooling)",
+                    data: [
+                        { name: "Keep fan always on / השאר מאוורר תמיד דולק", desc: "מבטיח שמאוורר הקירור של המודל יעבוד ברצף במהלך כל ההדפסה (למעט השכבות הראשונות שצמודות למשטח).", ex: "מומלץ מאוד לסמן ב-V עבור חומרים כמו PLA שזקוקים לקירור מהיר. כשמדפיסים חלקי חילוף לאופני הרים מ-ABS, לרוב נכבה את זה כדי שלא ייסדק." }
+                    ]
+                }
+            }
+        },
+        printer: {
+            title: "הגדרות מדפסת",
+            subtabs: {
+                general_printer: {
+                    title: "כללי (General)",
+                    data: [
+                        { name: "Max print height / גובה הדפסה מקסימלי", desc: "הגובה הפיזי המקסימלי שהמדפסת שלך מסוגלת לעלות אליו בציר ה-Z.", ex: "270 מ\"מ מאפשר הדפסה של חלקי חילוף גבוהים. התוכנה תתריע אם תנסה להדפיס מודל שחורג מהגובה הזה." },
+                        { name: "Enable variable layer height feature / אפשר תכונת גובה שכבה משתנה", desc: "פותח כלי ייחודי בתוכנה שמאפשר להדפיס שכבות דקות באזורים מורכבים ושכבות עבות באזורים ישרים - באותו מודל בדיוק.", ex: "כלי מעולה לאמוניטים מרובי פרטים: האזור השטוח למטה יודפס בשכבות עבות ומהירות, והכיפה העגולה תודפס בשכבות עדינות שיעלימו את המדרגות לחלוטין." }
+                    ]
+                },
+                machine_limits: {
+                    title: "מגבלות מכונה (Machine Limits)",
+                    data: [
+                        { name: "Maximum accelerations / תאוצות מקסימליות", desc: "התאוצה המקסימלית (ב-mm/s²) שכל מנוע יכול להפיק.", ex: "אם תרגיש \"Ghosting\" (צללים על הדופן) בגלל תנועה אלימה על חלקי אופניים, נוריד את הערך ל-5,000 מ\"מ/שנייה² כדי להשיג גימור חלק יותר." }
+                    ]
+                }
+            }
+        }
+    };
+
+    let currentMainTab = 'print';
+    let currentSubTab = '';
+
+    function switchMainTab(tabKey) {
+        currentMainTab = tabKey;
+        
+        // Update main tab button styles
+        document.querySelectorAll('.main-tab-btn').forEach(btn => btn.classList.remove('active'));
+        event.target.classList.add('active');
+        
+        // Render sub tabs menu
+        const sidebar = document.getElementById('sidebar-menu');
+        sidebar.innerHTML = '';
+        
+        const subtabs = database[tabKey].subtabs;
+        const subtabKeys = Object.keys(subtabs);
+        
+        subtabKeys.forEach((subKey, index) => {
+            const btn = document.createElement('button');
+            btn.className = 'sub-tab-btn';
+            if (index === 0) btn.classList.add('active');
+            btn.innerText = subtabs[subKey].title;
+            btn.onclick = (e) => switchSubTab(subKey, e);
+            sidebar.appendChild(btn);
+        });
+        
+        // Load first subtab contents automatically
+        if (subtabKeys.length > 0) {
+            switchSubTab(subtabKeys[0]);
+        }
+    }
+
+    function switchSubTab(subKey, event) {
+        currentSubTab = subKey;
+        
+        if (event) {
+            document.querySelectorAll('.sub-tab-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+        
+        const settingsList = document.getElementById('settings-list');
+        settingsList.innerHTML = '';
+        
+        const items = database[currentMainTab].subtabs[subKey].data;
+        
+        items.forEach(item => {
+            const row = document.createElement('div');
+            row.className = 'grid-row';
+            
+            row.innerHTML = `
+                <div>
+                    <div class="setting-name">
+                        ${item.name}
+                        <div class="tooltip">
+                            <div class="tooltip-title">${item.name.split('/')[1] || item.name}</div>
+                            <div><strong>הסבר:</strong> ${item.desc}</div>
+                            <div class="tooltip-example"><strong>דוגמה מעשית:</strong> ${item.ex}</div>
+                        </div>
+                    </div>
+                </div>
+                <div style="color: var(--text-muted); font-size: 14px;">העבר עכבר על השם לקריאת ההסבר והדוגמה המלאה.</div>
+            `;
+            
+            settingsList.appendChild(row);
+        });
+    }
+
+    // Initial bootup
+    switchMainTab('print');
+</script>
+
+</body>
+</html>

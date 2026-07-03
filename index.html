@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PrusaSlicer - המילון המלא</title>
+    <title>PrusaSlicer - המילון המלא להגדרות</title>
     <style>
         :root {
             --prusa-orange: #e76f51;
@@ -25,6 +25,7 @@
             height: 100vh;
             display: flex;
             flex-direction: column;
+            direction: rtl;
         }
 
         header {
@@ -80,6 +81,7 @@
 
         .app-body {
             display: flex;
+            flex-direction: row; /* מכריח את כיוון השורה מימין לשמאל ב-RTL */
             flex: 1;
             overflow: hidden;
         }
@@ -88,7 +90,7 @@
             width: 260px;
             min-width: 260px;
             background-color: var(--bg-sidebar);
-            border-left: 1px solid var(--border-color);
+            border-left: 1px solid var(--border-color); /* קו הפרדה בצד שמאל של התפריט */
             overflow-y: auto;
             padding-top: 10px;
         }
@@ -228,7 +230,7 @@
 
 <header>
     <h1>PrusaSlicer - המילון המלא להגדרות</h1>
-    <p>העבר את סמן העכבר מעל המונחים כדי לחשוף את ההסבר המלא והדוגמאות</p>
+    <p>העבר את סמן העכבר מעל המונחים המקווקווים כדי לחשוף את ההסבר המלא והדוגמאות</p>
 </header>
 
 <div class="main-tabs">
@@ -361,7 +363,7 @@
                     ]
                 },
                 speed: {
-                    title: "מהירות (Speed)",
+                    title: "מהירות ותאוצה (Speed)",
                     data: [
                         { name: "Perimeters / קירות (היקף)", desc: "מהירות ההדפסה של כל קירות ההיקף למעט החיצוני.", ex: "150 מ\"מ/שנייה גבוהה, חוסכת זמן אך עלולה לפגוע בחוזק." },
                         { name: "Small perimeters / קירות קטנים", desc: "מהירות מיוחדת לקירות עם היקף קטן מאוד.", ex: "הדפסה איטית בפרטים קטנים (כמו חורי ברגים) משפרת דיוק גיאומטרי." },

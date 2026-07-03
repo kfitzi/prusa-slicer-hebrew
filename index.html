@@ -3,72 +3,93 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PrusaSlicer מדריך הגדרות בעברית</title>
+    <title>PrusaSlicer מדריך הגדרות אישי</title>
     <style>
         :root {
-            --primary-orange: #e76f51;
-            --dark-bg: #2b2d42;
-            --panel-bg: #1d1e2c;
-            --text-main: #edf2f4;
-            --text-muted: #8d99ae;
-            --accent-green: #2a9d8f;
+            --prusa-orange: #e76f51;
+            --bg-main: #202225;
+            --bg-sidebar: #2f3136;
+            --bg-content: #36393f;
+            --text-main: #dcddde;
+            --text-light: #ffffff;
+            --border-color: #4f545c;
+            --tooltip-bg: #f4f1de;
         }
         
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--dark-bg);
+            background-color: var(--bg-main);
             color: var(--text-main);
             margin: 0;
-            padding: 20px;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
         header {
-            text-align: center;
-            margin-bottom: 30px;
-            border-bottom: 2px solid var(--primary-orange);
-            padding-bottom: 10px;
+            background-color: #2f3136;
+            border-bottom: 3px solid var(--prusa-orange);
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        h1 { margin: 0; color: var(--primary-orange); }
+        header h1 {
+            margin: 0;
+            font-size: 20px;
+            color: var(--prusa-orange);
+        }
+
+        header p {
+            margin: 0;
+            font-size: 13px;
+            color: #b9bbbe;
+        }
         
         .main-tabs {
             display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            justify-content: center;
+            background-color: #2f3136;
+            padding: 0 20px;
+            border-bottom: 1px solid var(--border-color);
         }
 
         .main-tab-btn {
-            background-color: var(--panel-bg);
-            color: var(--text-main);
-            border: 2px solid var(--text-muted);
-            padding: 10px 20px;
+            background: none;
+            color: #b9bbbe;
+            border: none;
+            padding: 12px 24px;
             cursor: pointer;
             font-weight: bold;
-            border-radius: 5px;
-            font-size: 16px;
+            font-size: 14px;
+            border-bottom: 3px solid transparent;
             transition: 0.2s;
         }
 
-        .main-tab-btn.active {
-            background-color: var(--primary-orange);
-            border-color: var(--primary-orange);
+        .main-tab-btn:hover {
+            color: var(--text-light);
+            background-color: rgba(255,255,255,0.05);
         }
 
-        .container {
+        .main-tab-btn.active {
+            color: var(--prusa-orange);
+            border-bottom: 3px solid var(--prusa-orange);
+            background-color: rgba(231, 111, 81, 0.05);
+        }
+
+        .app-body {
             display: flex;
-            gap: 20px;
-            max-width: 1400px;
-            margin: 0 auto;
+            flex: 1;
+            overflow: hidden;
         }
 
         .sidebar {
-            flex: 1;
-            background-color: var(--panel-bg);
-            padding: 15px;
-            border-radius: 8px;
-            max-height: 70vh;
+            width: 260px;
+            background-color: var(--bg-sidebar);
+            border-left: 1px solid var(--border-color);
             overflow-y: auto;
+            padding-top: 10px;
         }
 
         .sub-tab-btn {
@@ -77,93 +98,100 @@
             text-align: right;
             background: none;
             border: none;
-            color: var(--text-muted);
-            padding: 10px;
+            color: #b9bbbe;
+            padding: 10px 20px;
             cursor: pointer;
-            font-size: 15px;
-            border-bottom: 1px solid #3d405b;
-            transition: 0.2s;
+            font-size: 14px;
+            transition: 0.1s;
         }
 
-        .sub-tab-btn:hover, .sub-tab-btn.active {
-            color: var(--primary-orange);
-            background-color: rgba(231, 111, 81, 0.1);
+        .sub-tab-btn:hover {
+            background-color: rgba(255,255,255,0.05);
+            color: var(--text-light);
+        }
+
+        .sub-tab-btn.active {
+            color: var(--text-light);
+            background-color: #40444b;
             font-weight: bold;
+            border-right: 4px solid var(--prusa-orange);
         }
 
         .content-area {
-            flex: 3;
-            background-color: var(--panel-bg);
+            flex: 1;
+            background-color: var(--bg-content);
             padding: 20px;
-            border-radius: 8px;
-            min-height: 500px;
+            overflow-y: auto;
         }
 
-        .grid-table {
+        .settings-table {
             width: 100%;
             border-collapse: collapse;
         }
 
-        .grid-row {
-            display: grid;
-            grid-template-columns: 1fr 2fr;
-            border-bottom: 1px solid #3d405b;
-            padding: 12px 5px;
-            align-items: center;
+        .settings-table th {
+            text-align: right;
+            background-color: #2f3136;
+            color: var(--prusa-orange);
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid var(--border-color);
         }
 
-        .grid-header {
-            background-color: #3d405b;
-            font-weight: bold;
-            color: var(--primary-orange);
-            border-radius: 4px;
+        .settings-table td {
+            padding: 12px 10px;
+            border: 1px solid var(--border-color);
+            vertical-align: middle;
+        }
+
+        .setting-row:nth-child(even) {
+            background-color: rgba(255,255,255,0.02);
         }
 
         .setting-name {
             font-weight: bold;
-            color: var(--text-main);
+            color: var(--text-light);
             cursor: help;
             position: relative;
             display: inline-block;
-            padding: 5px;
-            border-radius: 4px;
-            transition: 0.2s;
+            border-bottom: 1px dashed #b9bbbe;
+            padding-bottom: 2px;
         }
 
         .setting-name:hover {
-            background-color: rgba(42, 157, 143, 0.2);
-            color: var(--accent-green);
+            color: var(--prusa-orange);
+            border-bottom-color: var(--prusa-orange);
         }
 
-        /* Tooltip styling */
+        /* Tooltip חכם וגדול כמו שביקשת */
         .tooltip {
             visibility: hidden;
-            width: 320px;
-            background-color: #f4f1de;
+            width: 380px;
+            background-color: var(--tooltip-bg);
             color: #2b2d42;
             text-align: right;
             border-radius: 8px;
             padding: 15px;
             position: absolute;
-            z-index: 10;
-            bottom: 125%;
+            z-index: 999;
+            bottom: 130%;
             right: 0;
-            box-shadow: 0px 4px 15px rgba(0,0,0,0.5);
+            box-shadow: 0px 8px 24px rgba(0,0,0,0.6);
             opacity: 0;
-            transition: opacity 0.3s;
-            border: 3px solid var(--primary-orange);
+            transition: opacity 0.2s;
+            border: 3px solid var(--prusa-orange);
             font-size: 14px;
-            line-height: 1.5;
+            line-height: 1.6;
         }
 
         .tooltip::after {
             content: "";
             position: absolute;
             top: 100%;
-            right: 20px;
+            right: 30px;
             border-width: 8px;
             border-style: solid;
-            border-color: var(--primary-orange) transparent transparent transparent;
+            border-color: var(--prusa-orange) transparent transparent transparent;
         }
 
         .setting-name:hover .tooltip {
@@ -173,27 +201,28 @@
 
         .tooltip-title {
             font-weight: bold;
-            color: var(--primary-orange);
-            margin-bottom: 8px;
-            border-bottom: 1px solid #2b2d42;
-            padding-bottom: 3px;
+            color: #e76f51;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #2b2d42;
+            padding-bottom: 5px;
+            font-size: 15px;
         }
 
         .tooltip-example {
-            margin-top: 10px;
-            background-color: rgba(231, 111, 81, 0.15);
-            padding: 8px;
-            border-left: 3px solid var(--primary-orange);
+            margin-top: 12px;
+            background-color: rgba(231, 111, 81, 0.12);
+            padding: 10px;
+            border-right: 4px solid var(--prusa-orange);
             border-radius: 4px;
-            font-style: italic;
+            font-weight: 500;
         }
     </style>
 </head>
 <body>
 
 <header>
-    <h1>PrusaSlicer - מילון הגדרות חכם בעברית</h1>
-    <p>עבור עם העכבר מעל שם ההגדרה כדי לפתוח הסבר ודוגמה מעשית</p>
+    <h1>PrusaSlicer - ממשק עזר אישי בעברית</h1>
+    <p>העבר עכבר מעל שם הגדרה מסומנת בקו מקווקו כדי לראות הסבר ודוגמה מעשית</p>
 </header>
 
 <div class="main-tabs">
@@ -202,52 +231,54 @@
     <button class="main-tab-btn" onclick="switchMainTab('printer')">הגדרות מדפסת (Printer Settings)</button>
 </div>
 
-<div class="container">
-    <div class="sidebar" id="sidebar-menu">
-        <!-- קטגוריות משנה ייטענו כאן דינמית -->
-    </div>
+<div class="app-body">
+    <div class="sidebar" id="sidebar-menu"></div>
     <div class="content-area">
-        <div class="grid-row grid-header">
-            <div>שם ההגדרה (אנגלית / עברית)</div>
-            <div>הנחיות מהירות למסך</div>
-        </div>
-        <div id="settings-list">
-            <!-- הגדרות ייטענו כאן -->
-        </div>
+        <table class="settings-table">
+            <thead>
+                <tr>
+                    <th style="width: 35%;">שם ההגדרה (אנגלית / עברית)</th>
+                    <th style="width: 65%;">הנחיית שימוש מהירה</th>
+                </tr>
+            </thead>
+            <tbody id="settings-list"></tbody>
+        </table>
     </div>
 </div>
 
 <script>
-    // מסד הנתונים המלא שבנינו יחד
     const database = {
         print: {
-            title: "הגדרות הדפסה",
             subtabs: {
                 layers: {
                     title: "שכבות והיקפים (Layers & Perimeters)",
                     data: [
                         { name: "Layer height / גובה שכבה", desc: "העובי של כל שכבת הדפסה. מספר קטן ייתן רזולוציה חלקה ואיכותית, אבל ההדפסה תיקח יותר זמן.", ex: "אם מדפיסים מחזיק מפתחות של אמוניט עם פרטים קטנים, כדאי 0.12 מ\"מ. לחלק פשוט אפשר 0.28 מ\"מ." },
-                        { name: "First layer height / גובה שכבה ראשונה", desc: "עובי השכבה הראשונה שנדבקת למשטח. לרוב מגדירים אותה עבה יותר משאר השכבות כדי להבטיח אחיזה טובה למשטח ההדפסה ולפצות על חוסר איזון קל במיטה.", ex: "כמעט תמיד נשאיר על 0.2 מ\"מ, גם אם מדפיסים ברזולוציה גבוהה, כדי למנוע ניתוק של המודל מהמשטח באמצע העבודה." },
-                        { name: "Perimeters / קירות (היקף)", desc: "מספר קווי המתאר שיוצרים את המעטפת החיצונית של המודל.", ex: "למודל ליופי על המדף מספיק 2 קירות. לחלק שצריך להיות חזק ועמיד באופניים, כדאי לשים 4 קירות או יותר." },
-                        { name: "Spiral vase / מצב אגרטל (ספירלה)", desc: "מדפיס את המודל מקו מתאר (קיר) אחד בודד ורציף שעולה בספירלה, ללא תפרים וללא מילוי פנימי. המודל יוצא חלול ודק.", ex: "מעולה להדפסת מודלים דקורטיביים כמו אהילים. לא מתאים בכלל לחלקי חילוף לאופני הרים או חלקים מ-PETG ו-ABS שדורשים קשיחות מבנית." },
-                        { name: "Minimum shell thickness / עובי מעטפת מינימלי", desc: "הגדרה שמוודאת שהגג והרצפה של המודל לא יהיו דקים מדי. התוכנה תוסיף שכבות מלאות באופן אוטומטי כדי להגיע לעובי המילימטרי שהגדרת כאן.", ex: "לחלק שצריך לעמוד בתנאי שטח על האופניים, הגדרה של לפחות 1 מ\"מ תבטיח שהמעטפת העליונה והתחתונה שלו יהיו אטומות וקשיחות." },
-                        { name: "Extra perimeters if needed / קירות נוספים לפי הצורך", desc: "נותן אישור לתוכנה להוסיף קירות פנימיים באופן אוטומטי באזורים שיש בהם שיפועים חדים, כדי למנוע חורים במעטפת של המודל.", ex: "אם מדפיסים חלק עם שיפוע אלכסוני חזק, התוכנה תעבה את הפלסטיק מבפנים כדי שהקיר החיצוני לא יקרוס." }
+                        { name: "First layer height / גובה שכבה ראשונה", desc: "עובי השכבה הראשונה שנדבקת למשטח. לרוב מגדירים אותה עבה יותר משאר השכבות כדי להבטיח אחיזה טובה למשטח ההדפסה ולפצות על חוסר איזון קל במיטה.", ex: "כמעט תמיד נשאיר על 0.2 מ\"מ, גם אם מדפיסים מחזיק מפתחות של אמוניט ברזולוציה גבוהה, כדי למנוע ניתוק של המודל מהמשטח באמצע העבודה." },
+                        { name: "Perimeters / קירות (היקף)", desc: "מספר קווי המתאר שיוצרים את המעטפת החיצונית של המודל.", ex: "למודל ליופי על המדף מספיק 2 קירות. לחלק שצריך להיות חזק ועמיד מ-PETG או ABS, כדאי לשים 4 קירות או יותר." },
+                        { name: "Spiral vase / מצב אגרטל (ספירלה)", desc: "מדפיס את המודל מקו מתאר (קיר) אחד בודד ורציף שעולה בספירלה, ללא תפרים וללא מילוי פנימי. המודל יוצא חלול ודק.", ex: "מעולה להדפסת מודלים דקורטיביים כמו אהילים. לא מתאים בכלל לחלקי חילוף לאופני הרים או חלקים מ-PETG ו-ABS שדורשים קשיחות וחוזק מבני." },
+                        { name: "Minimum shell thickness / עובי מעטפת מינימלי", desc: "הגדרה שמוודאת שהגג והרצפה של המודל לא יהיו דקים מדי. התוכנה תוסיף שכבות מלאות באופן אוטומטי (Top/Bottom) כדי להגיע לעובי המילימטרי שהגדרת כאן.", ex: "לחלק שצריך לעמוד בתנאי שטח על האופניים, הגדרה של לפחות 1 מ\"מ תבטיח שהמעטפת העליונה והתחתונה שלו יהיו אטומות וקשיחות." },
+                        { name: "Extra perimeters if needed / קירות נוספים לפי הצורך", desc: "נותן אישור לתוכנה להוסיף קירות פנימיים באופן אוטומטי באזורים שיש בהם שיפועים חדים, כדי למנוע חורים במעטפת של המודל.", ex: "אם מדפיסים חלק עם שיפוע אלכסוני חזק, התוכנה תעבה את הפלסטיק מבפנים כדי שהקיר החיצוני לא יקרוס." },
+                        { name: "Solid layers / שכבות מלאות (עליון/תחתון)", desc: "קובע כמה שכבות של פלסטיק מלא ב-100% יודפסו בתחתית המודל ובחלקו העליון, כדי לסגור אותו בצורה חלקה והרמטית.", ex: "לחלקי פלסטיק לאופניים שצריכים להיות חזקים ועמידים לשטח, מומלץ להגדיר לפחות 4 או 5 שכבות עליונות ותחתונות. לחלקים קישוטיים מספיק 3." }
                     ]
                 },
                 infill: {
                     title: "מילוי (Infill)",
                     data: [
-                        { name: "Fill density / צפיפות המילוי", desc: "אחוז הפלסטיק שייבנה בתוך המודל. 0% זה חלול, 100% זה גוש מלא.", ex: "מודל פשוט יכול להיות עם 10% מילוי. לחלק מכני שצריך לעמוד בעומס כדאי 40% ומעלה." },
-                        { name: "Fill pattern / צורת המילוי", desc: "התבנית ההנדסית של רשת המילוי הפנימית.", ex: "תבנית 'Gyroid' מומלצת לחלקים חזקים מ-PETG כי היא חזקה בכל הכיוונים. 'Grid' מצוין ומהיר לדברים פשוטים." },
-                        { name: "Length of the infill anchor / אורך עוגן המילוי", desc: "כמה מילימטרים קווי המילוי ייכנסו לתוך הקירות הפנימיים כדי \"להיאחז\" בהם.", ex: "משפר משמעותית את החוזק המבני של חלקי אופני הרים כדי שהמילוי לא יתנתק מהקיר תחת לחץ." }
+                        { name: "Fill density / צפיפות המילוי", desc: "אחוז הפלסטיק שייבנה בתוך המודל. 0% זה חלול, 100% זה גוש מלא.", ex: "מודל פשוט יכול להיות עם 10% מילוי. לחלק מכני שצריך לעמוד בעומס באופניים כדאי 40% ומעלה." },
+                        { name: "Fill pattern / צורת המילוי", desc: "הצורה ההנדסית של רשת התמיכה הפנימית בתוך המודל. יש תבניות שיותר מהירות להדפסה, ויש תבניות שנותנות למודל חוזק שווה בכל הכיוונים.", ex: "צורת מילוי מסוג 'Gyroid' מומלצת מאוד לחלקים חזקים מ-PETG או ABS. להדפסה מהירה של מחזיק מפתחות אפשר להשתמש ב-'Grid' או 'Rectilinear'." },
+                        { name: "Length of the infill anchor / אורך עוגן המילוי", desc: "כמה מילימטרים קווי המילוי ייכנסו לתוך הקירות הפנימיים כדי \"להיאחז\" בהם.", ex: "משפר משמעותית את החוזק המבני של חלקי אופני הרים כדי שהמילוי לא יתנתק מהקיר תחת לחץ." },
+                        { name: "Enable ironing / הפעלת גיהוץ", desc: "ראש ההדפסה עובר שוב על השכבה העליונה החשופה, כמעט ללא הוצאת פלסטיק, כדי להחליק אותה בעזרת החום של הדיזה.", ex: "מושלם לקבלת פני שטח חלקים לגמרי במחזיקי מפתחות שנמכרים בדוכן, אבל מאריך מאוד את זמן ההדפסה." },
+                        { name: "Solid infill threshold area / סף שטח למילוי מלא", desc: "אם יש חלל פנימי במודל שקטן מהמספר הזה (בממ\"ר), המדפסת תמלא אותו בפלסטיק 100% במקום לעשות בו רשת.", ex: "עוזר לחזק עמודים קטנים או חלקים צרים מאוד בתוך המודל." }
                     ]
                 },
                 skirt_brim: {
                     title: "חצאית ושוליים (Skirt & Brim)",
                     data: [
                         { name: "Loops (minimum) / לולאות (מינימום)", desc: "מסגרת של חוט פלסטיק שהמדפסת מציירת מסביב למודל לפני תחילת ההדפסה, כדי לנקות את הדיזה ולוודא זרימה תקינה.", ex: "כדאי להגדיר לפחות לולאה 1 או 2 כדי שהפלסטיק יזרום חלק ונקי לפני שהמדפסת מתחילה לבנות בפועל מחזיק מפתחות של אמוניט." },
-                        { name: "Brim type / סוג שוליים", desc: "קובע איפה יודפס משטח ההדבקה הנוסף שעוזר לעגן את המודל למשטח (בחוץ, בפנים, או גם וגם).", ex: "'Outer brim only' (רק בחוץ) הוא הנפוץ ביותר ועוזר למנוע מהמודל להתרומם ולהתעקם בפינות (Warping)." },
-                        { name: "Brim width / רוחב השוליים", desc: "העובי במילימטרים של משטח ההדבקה שייבנה מסביב לבסיס המודל.", ex: "לחלקים גבוהים וצרים מ-PETG שעלולים ליפול עקב תנודות המדפסת, כדאי להגדיר לפחות 5 מ\"מ כדי לייצב אותם. כשההגדרה על 0, לא יודפסו שוליים בכלל." }
+                        { name: "Draft shield / מגן רוח (חומת טמפרטורה)", desc: "בונה חומת פלסטיק גבוהה שמקיפה את המודל לכל גובהו כדי להגן עליו מרוחות ושינויי טמפרטורה בחדר.", ex: "מצוין אם מדפיסים חלקי חילוף מכניים לאופני הרים מ-ABS ורוצים למנוע מהם להתכווץ או להיסדק באמצע ההדפסה." },
+                        { name: "Brim type / סוג שוליים", desc: "קובע איפה יודפס משטח ההדבקה הנוסף שעוזר לעגן את המודל למשטח (בחוץ, בפנים, או גם וגם).", ex: "'Outer brim only' (רק בחוץ) הוא הנפוץ ביותר ועוזר למנוע מהמודל להתרומם ולהתעקם בפינות." },
+                        { name: "Brim width / רוחב השוליים", desc: "העובי במילימטרים של משטח ההדבקה שייבנה מסביב לבסיס המודל.", ex: "לחלקים גבוהים וצרים מ-PETG שעלולים ליפול עקב תנודות המדפסת, כדאי להגדיר לפחות 5 מ\"מ כדי לייצב אותם." }
                     ]
                 },
                 supports: {
@@ -255,64 +286,86 @@
                     data: [
                         { name: "Generate support material / יצירת חומר תמיכה", desc: "מתג ההפעלה או הכיבוי הראשי להדפסת תמיכות למודל.", ex: "חובה לסמן ב-V אם מדפיסים חלק שיש בו זוויות קשות שמרחפות באוויר ועלולות ליפול ללא בסיס מתחתיהן." },
                         { name: "Style / סגנון התמיכה", desc: "משנה את כל המבנה והצורה של התמיכות.", ex: "סגנון 'Organic' (אורגני) מומלץ מאוד – הוא יוצר ענפים דמויי עץ שצורכים פחות חומר, מושלמים למבנים טבעיים כמו מחזיקי מפתחות של אמוניט, ונושרים בקלות." },
-                        { name: "Support on build plate only / תמיכות רק על משטח ההדפסה", desc: "מאלץ את התוכנה לבנות תמיכות שמתחילות אך ורק ממיטת ההדפסה, ואוסר עליה לבנות תמיכות שצומחות מתוך המודל עצמו.", ex: "קריטי כשמדפיסים תתושבות לאופניים עם חורים שפונים פנימה. זה מונע מילוי של חורי הברגים בפלסטיק שקשה לחלץ החוצה." }
+                        { name: "Support on build plate only / תמיכות רק על משטח ההדפסה", desc: "מאלץ את התוכנה לבנות תמיכות שמתחילות אך ורק ממיטת ההדפסה, ואוסר עליה לבנות תמיכות שצומחות מתוך המודל עצמו.", ex: "קריטי כשמדפיסים תתושבות לאופניים עם חורים שפונים פנימה. זה מונע מילוי של חורי הברגים בפלסטיק." },
+                        { name: "Tip Diameter / קוטר הקצה (הטיפ)", desc: "העובי של השפיץ בקצה הענף האורגני, בדיוק בנקודה שנוגעת במודל.", ex: "0.8 מ\"מ מאפשר לענף להתחבר בנקודה זעירה למודל, ולכן התמיכה תנשור כמעט מעצמה בסוף עם מינימום סימנים." }
                     ]
                 },
                 speed: {
                     title: "מהירות (Speed)",
                     data: [
                         { name: "External perimeters / קירות חיצוניים", desc: "מהירות ההדפסה של הקיר החיצוני והנראה לעין של המודל.", ex: "זהו הקיר החשוב ביותר למראה הסופי. מהירות איטית יותר מבטיחה גימור חלק ויפה ללא סימנים." },
-                        { name: "Top solid infill / מילוי מלא עליון", desc: "מהירות ההדפסה של השכבה העליונה והחשופה ביותר (\"הגג\") של המודל.", ex: "כדי לקבל גימור פני שטח חלק ואחיד במחזיקי המפתחות שנמכרים בדוכן, חובה להדפיס שכבה זו לאט (סביב 100 מ\"מ/שנייה ומטה)." }
+                        { name: "Top solid infill / מילוי מלא עליון", desc: "מהירות ההדפסה של השכבה העליונה והחשופה ביותר (\"הגג\") של המודל.", ex: "כדי לקבל גימור פני שטח חלק ואחיד במחזיקי המפתחות שנמכרים בדוכן, חובה להדפיס שכבה זו לאט (סביב 100 מ\"מ/שנייה)." },
+                        { name: "Travel / תנועה חופשית", desc: "המהירות שבה ראש ההדפסה זז ללא הדפסה (תנועת מעבר).", ex: "התנועה המהירה ביותר האפשרית של המדפסת כדי לחסוך זמן בין הדפסות. 350 מ\"מ/שנייה היא מהירות אופיינית." },
+                        { name: "First layer speed / מהירות שכבה ראשונה", desc: "מהירות איטית במיוחד לשכבה הראשונה כדי להבטיח אחיזה מושלמת למשטח ההדפסה.", ex: "קריטי למנוע ניתוק המודל מהמשטח באמצע העבודה. לרוב סביב 45 מ\"מ/שנייה." }
                     ]
                 },
                 advanced: {
                     title: "מתקדם (Advanced)",
                     data: [
-                        { name: "Top solid infill width / רוחב מילוי מלא עליון", desc: "רוחב הקו עבור השכבה העליונה והחשופה ביותר.", ex: "הגדרת ערך נמוך יותר (למשל 0.42 מ\"מ לדיזה 0.4 מ\"מ) בשכבה האחרונה הזו מאפשרת קווי גמר דקים וחלקים יותר במחזיקי מפתחות של אמוניט." },
-                        { name: "Elephant foot compensation / פיצוי רגל פיל", desc: "מכווץ מעט פנימה את קווי הקירות החיצוניים בשכבה הראשונה בלבד, כדי למנוע יצירת בליטה לא רצויה שנוצרת כתוצאה מהלחץ של הראש על השכבה הראשונה.", ex: "ערך של 0.2 מ\"מ נותן פיצוי טוב כברירת מחדל ומבטיח שהבסיס של המודל ייצא נקי ויפה ללא בליטות רחבות." }
+                        { name: "Top solid infill width / מילוי מלא עליון (רוחב)", desc: "רוחב הקו עבור השכבה העליונה והחשופה ביותר.", ex: "הגדרת ערך נמוך יותר (0.42 מ\"מ בתמונה) בשכבה האחרונה הזו מאפשרת קווי גמר דקים וחלקים יותר במחזיקי מפתחות." },
+                        { name: "Infill/perimeters overlap / חפיפת מילוי/קירות", desc: "אחוז האורך של קווי המילוי שייכנסו לתוך קווי הקירות הפנימיים כדי לעגן אותם יחד.", ex: "הגדרת אחוז גבוה יותר (למשל, 20% במקום 15%) יכולה לחזק את המודל, כמו חלקי האופניים שלך, אבל עלולה לגרום לבליטות קטנות." },
+                        { name: "Elephant foot compensation / פיצוי רגל פיל", desc: "מכווץ מעט פנימה את קווי הקירות החיצוניים בשכבה הראשונה בלבד, כדי למנוע יצירת בליטה לא רצויה (\"רגל פיל\").", ex: "ערך של 0.2 מ\"מ נותן פיצוי טוב כברירת מחדל ומבטיח שהבסיס של מחזיקי מפתחות ייצא נקי ויפה." }
+                    ]
+                },
+                multiextruders: {
+                    title: "אקסטרודרים מרובים (Multiple Extruders)",
+                    data: [
+                        { name: "Perimeter extruder / אקסטרודר היקף", desc: "האקסטרודר שייבחר להדפיס את הקירות החיצוניים.", ex: "אם מגדירים לאקסטרודר 1 חומר איכותי לגימור אסתטי (כמו PETG יפה), הוא יודפס כאן." },
+                        { name: "Infill extruder / אקסטרודר מילוי", desc: "האקסטרודר שייבחר להדפיס את המילוי הפנימי.", ex: "אם רוצים להשתמש באקסטרודר 2 עם חומר זול יותר או חזק יותר (כמו פחמן) למילוי חזק מבלי להשקיע בגימור חיצוני יפה." }
                     ]
                 }
             }
         },
         filament: {
-            title: "הגדרות פילמנט",
             subtabs: {
                 filament_general: {
                     title: "מאפיינים כלליים (Filament)",
                     data: [
-                        { name: "Extrusion multiplier / מכפיל הוצאת חומר (Flow)", desc: "כיוונון עדין של כמות הפלסטיק שיוצאת מהדיזה. משמש לפיצוי על הבדלים בין חומרים.", ex: "ל-PLA נשאיר על 1. לחומרים גמישים כמו TPU שלפעמים \"מחליקים\" בתוך המנגנון, נהוג להעלות את המספר (למשל ל-1.05) כדי לפצות על כך." },
-                        { name: "Cost / עלות (כסף/ק\"ג)", desc: "כמה עלה לך לקנות קילו אחד של הפלסטיק הזה.", ex: "אם תכתוב כאן כמה עלה הגליל, התוכנה תחשב לך באופן אוטומטי כמה אגורות עולה להדפיס כל חלק. זה מעולה בשביל לדעת איך לתמחר את מחזיקי המפתחות שאתה מדפיס." }
+                        { name: "Extrusion multiplier / מכפיל הוצאת חומר (Flow)", desc: "כיוונון עדין של כמות הפלסטיק שיוצאת מהדיזה. משמש לפיצוי על הבדלים בין חומרים.", ex: "ל-PLA נשאיר על 1. לחומרים גמישים כמו TPU שלפעמים \"מחליקים\" בתוך המנגנון, נהוג להעלות את המספר (למשל ל1.05 או 1.1)." },
+                        { name: "Cost / עלות (כסף/ק\"ג)", desc: "כמה עלה לך לקנות קילו אחד של הפלסטיק הזה.", ex: "אם תכתוב כאן כמה עלה הגליל, התוכנה תחשב לך באופן אוטומטי כמה אגורות עולה להדפיס כל חלק. מעולה לתמחור." }
                     ]
                 },
                 temperature: {
                     title: "טמפרטורה (Temperature)",
                     data: [
                         { name: "Nozzle - First layer / דיזה - שכבה ראשונה", desc: "רמת החום של ראש ההדפסה אך ורק עבור השכבה הראשונה שנוגעת במשטח.", ex: "לרוב נגדיר אותה חמה יותר (למשל 210 מעלות ב-PLA) כדי שהפלסטיק יימס טוב ויידבק חזק מאוד למיטה." },
-                        { name: "Bed - First layer / מיטה - שכבה ראשונה", desc: "החום של משטח ההדפסה למטה, עבור השכבה הראשונה.", ex: "60 מעלות שומר על ה-PLA חמים כדי שלא יתכווץ ויתנתק. עבור חומרים חזקים כמו ABS או PETG לאופניים נצטרך טמפרטורה גבוהה בהרבה (80-100 מעלות)." }
+                        { name: "Bed - First layer / מיטה - שכבה ראשונה", desc: "החום של משטח ההדפסה למטה, עבור השכבה הראשונה.", ex: "60 מעלות שומר על ה-PLA חמים כדי שלא יתכווץ ויתנתק." }
                     ]
                 },
                 cooling: {
                     title: "קירור (Cooling)",
                     data: [
-                        { name: "Keep fan always on / השאר מאוורר תמיד דולק", desc: "מבטיח שמאוורר הקירור של המודל יעבוד ברצף במהלך כל ההדפסה (למעט השכבות הראשונות שצמודות למשטח).", ex: "מומלץ מאוד לסמן ב-V עבור חומרים כמו PLA שזקוקים לקירור מהיר. כשמדפיסים חלקי חילוף לאופני הרים מ-ABS, לרוב נכבה את זה כדי שלא ייסדק." }
+                        { name: "Keep fan always on / השאר מאוורר תמיד דולק", desc: "מבטיח שמאוורר הקירור של המודל יעבוד ברצף במהלך כל ההדפסה (למעט השכבות הראשונות).", ex: "מומלץ מאוד לסמן ב-V עבור חומרים כמו PLA שזקוקים לקירור מהיר. כשמדפיסים חלקי חילוף לאופני הרים מ-ABS, לרוב נכבה את זה." },
+                        { name: "Fan speed (Min/Max) / מהירות מאוורר (מינימום/מקסימום)", desc: "טווח העוצמה של מאוורר הקירור.", ex: "ל-PLA נשתמש לרוב ב-85% מינימום ו-100% מקסימום. כשנדפיס חלקי חילוף חזקים מ-PETG, נוריד את המהירויות לאזור ה-30%-50% כדי שהשכבות החמות יימסו ויידבקו אחת לשנייה טוב יותר." }
+                    ]
+                },
+                overrides: {
+                    title: "עקיפות פילמנט (Filament Overrides)",
+                    data: [
+                        { name: "Retraction length / אורך נסיגה", desc: "כמה מילימטרים של פלסטיק המנוע ימשוך אחורה לתוך הצינורית לפני תנועה פנויה, כדי למנוע טפטוף (\"שערות\").", ex: "זו העקיפה הכי נפוצה! ב-PLA תשתמש למשל ב-1 מ\"מ, אבל אם תחליף את הפרופיל ל-TPU גמיש, תהיה חייב לסמן כאן V ולשנות למשל ל-3 מ\"מ, אחרת המודל יתמלא בשערות." }
                     ]
                 }
             }
         },
         printer: {
-            title: "הגדרות מדפסת",
             subtabs: {
                 general_printer: {
                     title: "כללי (General)",
                     data: [
-                        { name: "Max print height / גובה הדפסה מקסימלי", desc: "הגובה הפיזי המקסימלי שהמדפסת שלך מסוגלת לעלות אליו בציר ה-Z.", ex: "270 מ\"מ מאפשר הדפסה של חלקי חילוף גבוהים. התוכנה תתריע אם תנסה להדפיס מודל שחורג מהגובה הזה." },
-                        { name: "Enable variable layer height feature / אפשר תכונת גובה שכבה משתנה", desc: "פותח כלי ייחודי בתוכנה שמאפשר להדפיס שכבות דקות באזורים מורכבים ושכבות עבות באזורים ישרים - באותו מודל בדיוק.", ex: "כלי מעולה לאמוניטים מרובי פרטים: האזור השטוח למטה יודפס בשכבות עבות ומהירות, והכיפה העגולה תודפס בשכבות עדינות שיעלימו את המדרגות לחלוטין." }
+                        { name: "Max print height / גובה הדפסה מקסימלי", desc: "הגובה הפיזי המקסימלי שהמדפסת שלך מסוגלת לעלות אליו בציר ה-Z.", ex: "270 מ\"מ מאפשר הדפסה של חלקי חילוף גבוהים לאופני הרים. התוכנה תתריע אם תנסה להדפיס מודל שחורג מהגובה הזה." },
+                        { name: "Enable variable layer height feature / אפשר תכונת גובה שכבה משתנה", desc: "פותח כלי ייחודי בתוכנה שמאפשר להדפיס שכבות דקות באזורים מורכבים ושכבות עבות באזורים ישרים - באותו מודל בדיוק.", ex: "כלי מעולה להדפסת מחזיקי מפתחות של אמוניטים מרובי פרטים: האזור השטוח למטה יודפס בשכבות עבות ומהירות, והכיפה העגולה תודפס בשכבות עדינות." }
                     ]
                 },
                 machine_limits: {
                     title: "מגבלות מכונה (Machine Limits)",
                     data: [
-                        { name: "Maximum accelerations / תאוצות מקסימליות", desc: "התאוצה המקסימלית (ב-mm/s²) שכל מנוע יכול להפיק.", ex: "אם תרגיש \"Ghosting\" (צללים על הדופן) בגלל תנועה אלימה על חלקי אופניים, נוריד את הערך ל-5,000 מ\"מ/שנייה² כדי להשיג גימור חלק יותר." }
+                        { name: "Maximum accelerations / תאוצות מקסימליות", desc: "התאוצה המקסימלית (ב-mm/s²) שכל מנוע יכול להפיק.", ex: "למנועי X ו-Y: עבור דיוק גבוה בתושבות מצלמה לאופניים, נוריד ערך זה ל-5,000 מ\"מ/שנייה² כדי להשיג גימור חלק יותר ומניעת סימני רעידות (Ghosting)." }
+                    ]
+                },
+                extruder1: {
+                    title: "אקסטרודר 1 (Extruder 1)",
+                    data: [
+                        { name: "Nozzle diameter / קוטר דיזה", desc: "קוטר פתח הדיזה במ\"מ.", ex: "0.4 מ\"מ הוא הסטנדרט לאיזון מצוין בין מהירות לדיוק, מה שמאפשר לך להדפיס פרטים קטנים באמוניטים מבלי לקחת את כל היום לכל הדפסה." }
                     ]
                 }
             }
@@ -320,16 +373,14 @@
     };
 
     let currentMainTab = 'print';
-    let currentSubTab = '';
 
     function switchMainTab(tabKey) {
         currentMainTab = tabKey;
         
-        // Update main tab button styles
         document.querySelectorAll('.main-tab-btn').forEach(btn => btn.classList.remove('active'));
-        event.target.classList.add('active');
+        const activeBtn = Array.from(document.querySelectorAll('.main-tab-btn')).find(btn => btn.getAttribute('onclick').includes(tabKey));
+        if (activeBtn) activeBtn.classList.add('active');
         
-        // Render sub tabs menu
         const sidebar = document.getElementById('sidebar-menu');
         sidebar.innerHTML = '';
         
@@ -345,15 +396,12 @@
             sidebar.appendChild(btn);
         });
         
-        // Load first subtab contents automatically
         if (subtabKeys.length > 0) {
             switchSubTab(subtabKeys[0]);
         }
     }
 
     function switchSubTab(subKey, event) {
-        currentSubTab = subKey;
-        
         if (event) {
             document.querySelectorAll('.sub-tab-btn').forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
@@ -365,28 +413,27 @@
         const items = database[currentMainTab].subtabs[subKey].data;
         
         items.forEach(item => {
-            const row = document.createElement('div');
-            row.className = 'grid-row';
+            const row = document.createElement('tr');
+            row.className = 'setting-row';
             
             row.innerHTML = `
-                <div>
+                <td>
                     <div class="setting-name">
                         ${item.name}
                         <div class="tooltip">
-                            <div class="tooltip-title">${item.name.split('/')[1] || item.name}</div>
+                            <div class="tooltip-title">${item.name.split('/')[1]?.trim() || item.name}</div>
                             <div><strong>הסבר:</strong> ${item.desc}</div>
                             <div class="tooltip-example"><strong>דוגמה מעשית:</strong> ${item.ex}</div>
                         </div>
                     </div>
-                </div>
-                <div style="color: var(--text-muted); font-size: 14px;">העבר עכבר על השם לקריאת ההסבר והדוגמה המלאה.</div>
+                </td>
+                <td style="color: #b9bbbe; font-size: 13px;">העבר עכבר על השם משמאל לקבלת ההסבר המלא והדוגמה המעשית.</td>
             `;
             
             settingsList.appendChild(row);
         });
     }
 
-    // Initial bootup
     switchMainTab('print');
 </script>
 

@@ -25,7 +25,6 @@
             height: 100vh;
             display: flex;
             flex-direction: column;
-            direction: rtl;
         }
 
         header {
@@ -47,6 +46,33 @@
             margin: 5px 0 0 0;
             font-size: 14px;
             color: #b9bbbe;
+        }
+
+        .search-container {
+            width: 100%;
+            background-color: #2f3136;
+            padding: 10px 0;
+            display: flex;
+            justify-content: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .search-input {
+            width: 50%;
+            max-width: 500px;
+            padding: 10px 20px;
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            background-color: var(--bg-main);
+            color: var(--text-light);
+            font-size: 15px;
+            outline: none;
+            transition: 0.2s;
+        }
+
+        .search-input:focus {
+            border-color: var(--prusa-orange);
+            box-shadow: 0 0 5px rgba(231, 111, 81, 0.5);
         }
         
         .main-tabs {
@@ -81,7 +107,7 @@
 
         .app-body {
             display: flex;
-            flex-direction: row; /* מכריח את כיוון השורה מימין לשמאל ב-RTL */
+            flex-direction: row-reverse; /* מכריח את התפריט להיות בצד שמאל ב-RTL */
             flex: 1;
             overflow: hidden;
         }
@@ -90,7 +116,7 @@
             width: 260px;
             min-width: 260px;
             background-color: var(--bg-sidebar);
-            border-left: 1px solid var(--border-color); /* קו הפרדה בצד שמאל של התפריט */
+            border-right: 1px solid var(--border-color); /* קו בצד ימין של התפריט */
             overflow-y: auto;
             padding-top: 10px;
         }
@@ -106,7 +132,7 @@
             cursor: pointer;
             font-size: 14px;
             transition: 0.1s;
-            border-right: 4px solid transparent;
+            border-left: 4px solid transparent; /* פס סימון בצד שמאל */
         }
 
         .sub-tab-btn:hover {
@@ -118,7 +144,7 @@
             color: var(--text-light);
             background-color: #40444b;
             font-weight: bold;
-            border-right: 4px solid var(--prusa-orange);
+            border-left: 4px solid var(--prusa-orange);
         }
 
         .content-area {
@@ -224,14 +250,28 @@
             border-radius: 4px;
             font-weight: 500;
         }
+        
+        .search-badge {
+            display: inline-block;
+            background-color: rgba(231, 111, 81, 0.2);
+            color: var(--prusa-orange);
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            margin-top: 8px;
+        }
     </style>
 </head>
 <body>
 
 <header>
     <h1>PrusaSlicer - המילון המלא להגדרות</h1>
-    <p>העבר את סמן העכבר מעל המונחים המקווקווים כדי לחשוף את ההסבר המלא והדוגמאות</p>
+    <p>העבר את סמן העכבר מעל המונחים כדי לחשוף את ההסבר המלא והדוגמאות</p>
 </header>
+
+<div class="search-container">
+    <input type="text" id="search-box" class="search-input" placeholder="חיפוש הגדרה חופשי..." onkeyup="handleSearch()">
+</div>
 
 <div class="main-tabs">
     <button class="main-tab-btn active" onclick="switchMainTab('print')">הגדרות הדפסה (Print Settings)</button>
@@ -668,6 +708,9 @@
         if (subtabKeys.length > 0) {
             switchSubTab(subtabKeys[0]);
         }
+        
+        // נקה חיפוש בעת מעבר לשונית ראשית
+        document.getElementById('search-box').value = '';
     }
 
     function switchSubTab(subKey, event) {
@@ -680,10 +723,18 @@
         settingsList.innerHTML = '';
         
         const items = database[currentMainTab].subtabs[subKey].data;
-        
+        renderItems(items, settingsList);
+    }
+
+    function renderItems(items, container, showBadge = false) {
         items.forEach(item => {
             const row = document.createElement('tr');
             row.className = 'setting-row';
+            
+            let badgeHtml = '';
+            if (showBadge && item.categoryTitle) {
+                badgeHtml = `<div class="search-badge">${item.categoryTitle}</div>`;
+            }
             
             row.innerHTML = `
                 <td>
@@ -695,14 +746,68 @@
                             <div class="tooltip-example"><strong>דוגמה מעשית:</strong> ${item.ex}</div>
                         </div>
                     </div>
+                    <br>${badgeHtml}
                 </td>
                 <td style="color: #b9bbbe; font-size: 14px; line-height: 1.4;">
                     ${item.desc}
                 </td>
             `;
             
-            settingsList.appendChild(row);
+            container.appendChild(row);
         });
+    }
+
+    function handleSearch() {
+        const query = document.getElementById('search-box').value.toLowerCase().trim();
+        const settingsList = document.getElementById('settings-list');
+        
+        if (query === '') {
+            // חזור למצב רגיל
+            const activeSubTab = document.querySelector('.sub-tab-btn.active');
+            if (activeSubTab) {
+                activeSubTab.click();
+            } else {
+                switchMainTab(currentMainTab);
+            }
+            return;
+        }
+
+        // ביטול סימון בתפריט צד בזמן חיפוש
+        document.querySelectorAll('.sub-tab-btn').forEach(btn => btn.classList.remove('active'));
+        settingsList.innerHTML = '';
+        
+        let results = [];
+
+        // חיפוש בכל מסד הנתונים
+        for (const mainKey in database) {
+            for (const subKey in database[mainKey].subtabs) {
+                const subtabData = database[mainKey].subtabs[subKey];
+                subtabData.data.forEach(item => {
+                    if (item.name.toLowerCase().includes(query) || 
+                        item.desc.toLowerCase().includes(query) || 
+                        item.ex.toLowerCase().includes(query)) {
+                        
+                        // יצירת עותק של הפריט כדי להוסיף לו תגית של המיקום
+                        results.push({
+                            ...item,
+                            categoryTitle: `${database[mainKey].subtabs[subKey].title}`
+                        });
+                    }
+                });
+            }
+        }
+
+        if (results.length > 0) {
+            renderItems(results, settingsList, true);
+        } else {
+            settingsList.innerHTML = `
+                <tr>
+                    <td colspan="2" style="text-align:center; padding: 30px; color: var(--prusa-orange);">
+                        לא נמצאו תוצאות לחיפוש: "<strong>${query}</strong>"
+                    </td>
+                </tr>
+            `;
+        }
     }
 
     // הפעלה ראשונית של האתר

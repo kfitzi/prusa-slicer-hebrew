@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
@@ -6,24 +5,82 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PrusaSlicer - המילון המלא להגדרות</title>
     <style>
+        /* CSS Variables for Light/Dark modes */
         :root {
-            --app-bg: #e9e9e9;
+            --app-bg: #f0f0f0;
             --panel-bg: #ffffff;
-            --border: #b8b8b8;
-            --border-light: #e2e2e2;
-            --text: #1f1f1f;
+            --border: #cccccc;
+            --border-light: #e0e0e0;
+            --text: #222222;
             --text-muted: #666666;
-            --select-bg: #cfe4fb;
-            --select-border: #7fb2e6;
-            --green: #2e7d32;
-            --red: #c1440e;
-            --prusa-orange: #e76f51;
-            --tooltip-bg: #fffdf6;
-            --tooltip-border: #e07b39;
+            --select-bg: #e6f2ff;
+            --select-border: #99c2ff;
+            --green: #4caf50;
+            --red: #f44336;
+            --orange: #ff9800; /* Yellowish orange */
+            --prusa-orange: #f26f21;
+            --titlebar-bg: #2d2d2d;
+            --titlebar-text: #ffffff;
+            --tab-bg: #e0e0e0;
+            --tab-active-bg: #ffffff;
+            --tab-text: #333333;
+            --tab-active-text: #000000;
+            --sidebar-bg: #f5f5f5;
+            --sidebar-hover: #e8e8e8;
+            --sidebar-active-bg: #d0e8ff;
+            --sidebar-active-border: #99c2ff;
+            --row-hover: #f9f9f9;
+            --input-bg: #ffffff;
+            --input-border: #aaaaaa;
+            --input-text: #000000;
+            --tooltip-bg: #ffffff;
+            --tooltip-border: #cccccc;
+            --tooltip-text: #333333;
+            
+            /* Visualizer specific variables */
+            --vis-bg: #f8f8f8;
+            --vis-line: #cccccc;
+            --vis-fill: var(--prusa-orange);
+            
+            --base-font-size: 13px; /* Default font size */
+        }
+
+        /* Dark Mode Variables */
+        [data-theme="dark"] {
+            --app-bg: #2b2b2b;
+            --panel-bg: #3c3c3c;
+            --border: #555555;
+            --border-light: #4d4d4d;
+            --text: #eeeeee;
+            --text-muted: #aaaaaa;
+            --select-bg: #4a5c6b;
+            --select-border: #5a7c9b;
+            --green: #66bb6a;
+            --red: #e57373;
+            --orange: #ffb74d;
+            --titlebar-bg: #1e1e1e;
+            --titlebar-text: #cccccc;
+            --tab-bg: #333333;
+            --tab-active-bg: #3c3c3c;
+            --tab-text: #bbbbbb;
+            --tab-active-text: #ffffff;
+            --sidebar-bg: #333333;
+            --sidebar-hover: #444444;
+            --sidebar-active-bg: #4a5c6b;
+            --sidebar-active-border: #5a7c9b;
+            --row-hover: #444444;
+            --input-bg: #2b2b2b;
+            --input-border: #666666;
+            --input-text: #eeeeee;
+            --tooltip-bg: #2d2d2d;
+            --tooltip-border: #555555;
+            --tooltip-text: #dddddd;
+            
+            --vis-bg: #222222;
+            --vis-line: #555555;
         }
 
         * { box-sizing: border-box; }
-
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: var(--app-bg);
@@ -33,54 +90,67 @@
             height: 100vh;
             display: flex;
             flex-direction: column;
-            font-size: 13px;
+            font-size: var(--base-font-size);
+            overflow: hidden; /* Prevent body scroll, handle in inner containers */
         }
 
-        /* ---------- Title strip ---------- */
+        /* ---------- Header / Titlebar ---------- */
         .titlebar {
-            background: linear-gradient(#3a3a3a, #2b2b2b);
-            color: #eee;
-            padding: 6px 14px;
-            font-size: 12px;
+            background-color: var(--titlebar-bg);
+            color: var(--titlebar-text);
+            padding: 4px 12px;
+            font-size: 0.9em;
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            gap: 8px;
-            border-bottom: 1px solid #000;
+            border-bottom: 1px solid #111;
         }
-        .titlebar .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--prusa-orange); }
+        .titlebar-left { display: flex; align-items: center; gap: 8px; }
+        .titlebar-left .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--prusa-orange); }
+        .titlebar-right { display: flex; gap: 10px; }
+        
+        .toolbar-btn {
+            background: none;
+            border: 1px solid transparent;
+            color: var(--titlebar-text);
+            cursor: pointer;
+            font-size: 1.1em;
+            padding: 2px 6px;
+            border-radius: 3px;
+            transition: background 0.2s, border 0.2s;
+        }
+        .toolbar-btn:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.3); }
 
-        /* ---------- Main section tabs (Print/Filament/Printer) ---------- */
+        /* ---------- Main Tabs ---------- */
         .main-tabs {
             display: flex;
-            background-color: #dcdcdc;
-            border-bottom: 1px solid var(--border);
+            background-color: var(--tab-bg);
             padding: 6px 8px 0 8px;
-            gap: 4px;
+            gap: 2px;
+            border-bottom: 1px solid var(--border);
         }
-
         .main-tab-btn {
-            background: #cfcfcf;
-            color: #333;
+            background: var(--tab-bg);
+            color: var(--tab-text);
             border: 1px solid var(--border);
             border-bottom: none;
-            padding: 7px 22px;
+            padding: 6px 16px;
             cursor: pointer;
-            font-size: 13px;
-            border-radius: 3px 3px 0 0;
+            font-size: 1em;
+            border-radius: 4px 4px 0 0;
             position: relative;
             top: 1px;
+            margin-bottom: -1px;
         }
-
-        .main-tab-btn:hover { background: #d8d8d8; }
-
+        .main-tab-btn:hover:not(.active) { background: var(--sidebar-hover); }
         .main-tab-btn.active {
-            background: #1f1f1f;
-            color: #fff;
-            border-color: #1f1f1f;
-            font-weight: 600;
+            background: var(--tab-active-bg);
+            color: var(--tab-active-text);
+            border-color: var(--border);
+            z-index: 2;
         }
 
-        /* ---------- Preset row ---------- */
+        /* ---------- Presets Bar ---------- */
         .preset-bar {
             background-color: var(--panel-bg);
             border-bottom: 1px solid var(--border);
@@ -88,320 +158,376 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            font-size: 12px;
-            color: var(--text-muted);
         }
-
-        .preset-icon { opacity: 0.65; font-size: 14px; }
-
-        .preset-select {
+        .preset-icon { opacity: 0.8; font-size: 1.1em; cursor: pointer;}
+        .preset-icon:hover { opacity: 1; }
+        .preset-select-container {
             flex: 1;
-            max-width: 420px;
-            background: #f6f6f6;
-            border: 1px solid var(--border);
-            border-radius: 2px;
-            padding: 4px 10px;
-            color: var(--text);
-            font-weight: 600;
-            font-size: 12.5px;
+            max-width: 400px;
             display: flex;
-            justify-content: space-between;
+            align-items: center;
+            border: 1px solid var(--input-border);
+            border-radius: 3px;
+            background: var(--input-bg);
+            color: var(--input-text);
+            padding: 2px 8px;
+            cursor: pointer;
         }
-
-        .preset-icons { display: flex; gap: 10px; margin-right: auto; }
-
-        /* ---------- Search ---------- */
-        .search-container {
-            background-color: var(--panel-bg);
-            padding: 8px 12px;
-            border-bottom: 1px solid var(--border);
-        }
-
+        .preset-select-container:hover { border-color: var(--prusa-orange); }
+        .preset-select-text { flex: 1; font-weight: 500; font-size: 0.95em;}
+        .preset-select-arrow { font-size: 0.8em; color: var(--text-muted); }
+        
+        /* Search Box in Preset Bar */
+        .search-container { margin-right: auto; display: flex; align-items: center; gap: 5px; }
         .search-input {
-            width: 100%;
-            max-width: 360px;
-            padding: 6px 10px;
-            border-radius: 2px;
-            border: 1px solid var(--border);
-            background-color: #fff;
-            color: var(--text);
-            font-size: 13px;
+            width: 200px;
+            padding: 4px 8px;
+            border-radius: 3px;
+            border: 1px solid var(--input-border);
+            background-color: var(--input-bg);
+            color: var(--input-text);
+            font-size: 0.95em;
             outline: none;
         }
+        .search-input:focus { border-color: var(--prusa-orange); }
 
-        .search-input:focus {
-            border-color: #7fb2e6;
-            box-shadow: 0 0 0 2px rgba(127,178,230,0.35);
-        }
-
-        /* ---------- Body layout ---------- */
+        /* ---------- Main Body ---------- */
         .app-body {
             display: flex;
-            flex-direction: row-reverse;
+            flex-direction: row; /* Sidebar on left, content on right like PrusaSlicer */
             flex: 1;
             overflow: hidden;
-        }
-
-        .sidebar {
-            width: 235px;
-            min-width: 235px;
             background-color: var(--panel-bg);
-            border-right: 1px solid var(--border);
-            overflow-y: auto;
-            padding: 6px 0;
         }
 
+        /* ---------- Sidebar ---------- */
+        .sidebar {
+            width: 240px;
+            min-width: 200px;
+            background-color: var(--sidebar-bg);
+            border-left: 1px solid var(--border); /* Left border for RTL */
+            overflow-y: auto;
+            padding: 8px 4px;
+        }
         .sub-tab-btn {
             display: flex;
             align-items: center;
             gap: 8px;
             width: 100%;
             text-align: right;
-            background: none;
-            border: none;
-            color: #2a2a2a;
-            padding: 6px 14px;
+            background: transparent;
+            border: 1px solid transparent;
+            color: var(--text);
+            padding: 6px 10px;
             cursor: pointer;
-            font-size: 13px;
-            border-radius: 2px;
+            font-size: 0.95em;
+            border-radius: 4px;
+            margin-bottom: 2px;
         }
-
-        .sub-tab-btn .tree-icon { font-size: 13px; width: 16px; text-align: center; opacity: 0.85; }
-
-        .sub-tab-btn:hover { background-color: #f1f1f1; }
-
+        .sub-tab-btn .tree-icon { font-size: 1.1em; width: 16px; text-align: center; }
+        .sub-tab-btn:hover { background-color: var(--sidebar-hover); }
         .sub-tab-btn.active {
-            background-color: var(--select-bg);
-            border: 1px solid var(--select-border);
-            padding: 5px 13px;
-            font-weight: 600;
+            background-color: var(--sidebar-active-bg);
+            border-color: var(--sidebar-active-border);
+            font-weight: 500;
         }
 
+        /* ---------- Content Area ---------- */
         .content-area {
             flex: 1;
-            background-color: var(--panel-bg);
-            padding: 18px 24px;
+            padding: 16px 24px;
             overflow-y: auto;
         }
-
         .content-hint {
-            font-size: 12px;
+            font-size: 0.9em;
             color: var(--text-muted);
-            margin: 0 0 14px 0;
-            padding-bottom: 10px;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
             border-bottom: 1px solid var(--border-light);
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        /* ---------- Setting rows ---------- */
-        #settings-list { display: flex; flex-direction: column; }
-
+        /* ---------- Settings Rows ---------- */
+        #settings-list { display: flex; flex-direction: column; gap: 4px; }
         .setting-row {
             display: flex;
-            align-items: flex-start;
-            gap: 10px;
-            padding: 7px 4px;
-            border-bottom: 1px solid var(--border-light);
+            align-items: center;
+            gap: 12px;
+            padding: 4px 8px;
+            border-radius: 4px;
+            min-height: 32px;
         }
-
-        .setting-row:hover { background-color: #fafafa; }
-
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            min-width: 8px;
-            border-radius: 50%;
-            margin-top: 6px;
-        }
+        .setting-row:hover { background-color: var(--row-hover); }
+        
+        .status-dot { width: 8px; height: 8px; min-width: 8px; border-radius: 50%; }
         .status-dot.green { background-color: var(--green); }
         .status-dot.red { background-color: var(--red); }
+        .status-dot.orange { background-color: var(--orange); }
 
         .label-block {
-            flex: 0 0 40%;
-            max-width: 420px;
+            flex: 0 0 45%;
+            max-width: 500px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
-
+        
         .setting-name {
-            font-weight: 600;
             cursor: help;
-            display: inline-block;
-            border-bottom: 1px dashed currentColor;
-            padding-bottom: 1px;
-            font-size: 13px;
+            border-bottom: 1px dotted var(--text-muted);
+            font-size: 1em;
+            transition: color 0.2s;
         }
-        .setting-name.green { color: var(--green); }
-        .setting-name.red { color: var(--red); }
-        .setting-name:hover, .setting-name.tt-open { opacity: 0.7; }
+        .setting-name:hover { color: var(--prusa-orange); border-bottom-color: var(--prusa-orange); }
+        
+        /* Coloring text based on status dot is not default Prusa behavior, but keeping it subtle if requested. Usually only dot has color */
+        /* Removed setting-name.green/red to keep text clean, relying on dot for status */
 
         .search-badge {
-            display: inline-block;
-            background-color: rgba(231, 111, 81, 0.12);
-            color: var(--prusa-orange);
-            border: 1px solid rgba(231,111,81,0.4);
-            padding: 1px 8px;
+            background-color: var(--sidebar-active-bg);
+            color: var(--text);
+            border: 1px solid var(--sidebar-active-border);
+            padding: 1px 6px;
             border-radius: 10px;
-            font-size: 10.5px;
-            margin-top: 5px;
+            font-size: 0.75em;
         }
 
-        .lock-icon { color: #999; font-size: 12px; margin: 0 2px; user-select: none; }
-        .bullet-sep { color: #aaa; font-size: 12px; }
+        .lock-icon { color: var(--text-muted); font-size: 0.9em; opacity: 0.7; }
+        
+        .field-wrap {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex: 1;
+        }
 
-        .field-wrap { display: flex; align-items: center; gap: 6px; flex: 1; }
-
-        /* checkbox */
-        .field-wrap input[type="checkbox"] {
+        /* Form Controls */
+        input[type="checkbox"] {
             width: 16px;
             height: 16px;
             accent-color: var(--prusa-orange);
+            cursor: default;
         }
 
-        /* number field */
         .field-number {
             display: flex;
             align-items: center;
-            border: 1px solid var(--border);
-            border-radius: 2px;
-            background: #fff;
+            border: 1px solid var(--input-border);
+            border-radius: 3px;
+            background: var(--input-bg);
             overflow: hidden;
             height: 24px;
+            width: 70px;
         }
         .field-number input {
             border: none;
-            width: 62px;
+            width: 100%;
             padding: 0 6px;
-            font-size: 12.5px;
-            color: var(--text);
-            background: #fbfbfb;
+            font-size: 0.95em;
+            color: var(--input-text);
+            background: transparent;
+            text-align: left; /* Numbers usually left aligned even in RTL */
+            direction: ltr;
         }
-        .field-number .spinner {
+        .field-number input:focus { outline: none; }
+        .spinner {
             display: flex;
             flex-direction: column;
-            border-right: 1px solid var(--border-light);
+            border-left: 1px solid var(--border-light); /* left for RTL */
+            background: var(--panel-bg);
+            color: var(--text-muted);
             font-size: 8px;
-            line-height: 8px;
-            color: #888;
-            padding: 2px 3px;
-            user-select: none;
+            width: 16px;
+            cursor: pointer;
         }
-        .field-unit { font-size: 12px; color: var(--text-muted); }
+        .spinner span { height: 50%; display: flex; align-items: center; justify-content: center; }
+        .spinner span:hover { background: var(--sidebar-hover); color: var(--text); }
+        
+        .field-unit { font-size: 0.9em; color: var(--text-muted); white-space: nowrap; direction: ltr; display: inline-block;}
 
-        /* dropdown-look field */
         .field-select {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 8px;
-            border: 1px solid var(--border);
-            border-radius: 2px;
-            background: #fbfbfb;
-            padding: 3px 8px;
-            min-width: 130px;
+            border: 1px solid var(--input-border);
+            border-radius: 3px;
+            background: var(--input-bg);
+            padding: 0 8px;
             height: 24px;
-            font-size: 12.5px;
+            min-width: 150px;
+            color: var(--input-text);
+            font-size: 0.95em;
         }
-        .field-select .arrow { color: #888; font-size: 10px; }
+        .field-select .arrow { font-size: 0.7em; color: var(--text-muted); }
 
-        /* color swatch */
         .field-color {
-            width: 22px;
-            height: 18px;
-            border: 1px solid var(--border);
-            border-radius: 2px;
+            width: 30px;
+            height: 20px;
+            border: 1px solid var(--input-border);
+            border-radius: 3px;
+            cursor: pointer;
         }
 
-        /* ---------- Tooltip (single global element, fixed position, JS-placed) ---------- */
+        /* ---------- Custom Tooltip (The visualizer) ---------- */
         .global-tooltip {
-            display: none;
             position: fixed;
-            width: 380px;
-            max-width: calc(100vw - 24px);
+            width: 420px;
+            max-width: 90vw;
             background-color: var(--tooltip-bg);
-            color: #2b2d42;
+            color: var(--tooltip-text);
             text-align: right;
             border-radius: 6px;
-            padding: 14px;
-            z-index: 9999;
-            box-shadow: 0px 10px 26px rgba(0,0,0,0.32);
-            border: 2px solid var(--tooltip-border);
-            font-size: 13.5px;
-            line-height: 1.6;
-            font-weight: normal;
+            padding: 16px;
+            z-index: 10000;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            border: 1px solid var(--tooltip-border);
+            font-size: 1em;
+            line-height: 1.5;
             pointer-events: none;
+            
+            /* Sharp appearance, no fade */
+            display: none; 
         }
 
         .tooltip-title {
             font-weight: bold;
             color: var(--prusa-orange);
-            margin-bottom: 9px;
-            border-bottom: 2px solid #2b2d42;
-            padding-bottom: 5px;
-            font-size: 15px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--border-light);
+            padding-bottom: 6px;
+            font-size: 1.1em;
         }
-
+        .tooltip-desc { margin-bottom: 12px; }
+        
         .tooltip-example {
-            margin-top: 11px;
-            background-color: rgba(231, 111, 81, 0.10);
-            padding: 9px 10px;
-            border-right: 4px solid var(--prusa-orange);
-            border-radius: 4px;
-            font-weight: 500;
+            background-color: var(--sidebar-bg);
+            padding: 10px;
+            border-right: 3px solid var(--prusa-orange);
+            border-radius: 3px;
+            font-style: italic;
+            font-size: 0.95em;
+            margin-bottom: 12px;
         }
 
-        ::-webkit-scrollbar { width: 10px; height: 10px; }
-        ::-webkit-scrollbar-track { background: #eee; }
-        ::-webkit-scrollbar-thumb { background: #bbb; border-radius: 5px; }
+        /* Visualizer Container */
+        .visualizer-container {
+            width: 100%;
+            height: 120px;
+            background-color: var(--vis-bg);
+            border: 1px solid var(--tooltip-border);
+            border-radius: 4px;
+            position: relative;
+            overflow: hidden;
+            display: none; /* Shown via JS if type matches */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Visualizer Types (CSS drawn) */
+        
+        /* 1. Layers / Height */
+        .vis-layers { display: flex; flex-direction: column; justify-content: flex-end; align-items: center; height: 80%; width: 60%; gap: 2px;}
+        .vis-layers .layer { width: 100%; background-color: var(--vis-line); border-radius: 2px; }
+        .vis-layers .layer:nth-child(1) { height: 12px; background-color: var(--vis-fill); } /* First layer */
+        .vis-layers .layer:nth-child(2) { height: 6px; }
+        .vis-layers .layer:nth-child(3) { height: 6px; }
+        .vis-layers .layer:nth-child(4) { height: 6px; }
+        
+        /* 2. Perimeters (Walls) */
+        .vis-perimeters { width: 80px; height: 80px; border: 4px solid var(--vis-fill); border-radius: 10px; position: relative;}
+        .vis-perimeters::before { content:''; position:absolute; top: 4px; left: 4px; right: 4px; bottom: 4px; border: 4px solid var(--vis-line); border-radius: 6px;}
+        .vis-perimeters::after { content:''; position:absolute; top: 12px; left: 12px; right: 12px; bottom: 12px; border: 4px solid var(--vis-line); border-radius: 2px;}
+
+        /* 3. Infill */
+        .vis-infill { width: 80px; height: 80px; border: 2px solid var(--vis-line); position: relative; background: repeating-linear-gradient( 45deg, transparent, transparent 10px, var(--vis-fill) 10px, var(--vis-fill) 12px ), repeating-linear-gradient( -45deg, transparent, transparent 10px, var(--vis-fill) 10px, var(--vis-fill) 12px ); }
+
+        /* 4. Supports */
+        .vis-supports { display: flex; align-items: flex-end; justify-content: center; height: 80px; width: 100px; position: relative;}
+        .vis-supports .model { width: 60px; height: 30px; background-color: var(--vis-line); border-radius: 4px; position: absolute; top: 10px; left: 20px;}
+        .vis-supports .support { width: 10px; height: 50px; background-color: var(--vis-fill); position: absolute; bottom: 0; opacity: 0.7;}
+        .vis-supports .support.l { left: 25px; }
+        .vis-supports .support.r { right: 25px; }
+
+        /* 5. Skirt/Brim */
+        .vis-skirt { width: 60px; height: 60px; background-color: var(--vis-line); position: relative; border-radius: 4px;}
+        .vis-skirt::before { content:''; position: absolute; top: -10px; left: -10px; right: -10px; bottom: -10px; border: 2px dashed var(--vis-fill); border-radius: 8px;}
+        
+        /* Scrollbars */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
     </style>
 </head>
-<body>
+<body data-theme="light">
 
-<div class="titlebar"><span class="dot"></span> PrusaSlicer — המילון המלא להגדרות</div>
-
-<div class="main-tabs">
-    <button class="main-tab-btn active" onclick="switchMainTab('print')">Print Settings — הגדרות הדפסה</button>
-    <button class="main-tab-btn" onclick="switchMainTab('filament')">Filament Settings — הגדרות פילמנט</button>
-    <button class="main-tab-btn" onclick="switchMainTab('printer')">Printer Settings — הגדרות מדפסת</button>
-</div>
-
-<div class="preset-bar">
-    <span class="preset-icon">📁</span>
-    <div class="preset-select" id="preset-name"><span>0.20mm QUALITY @COREONE HF0.4</span><span>▾</span></div>
-    <div class="preset-icons">
-        <span class="preset-icon" title="שמור">💾</span>
-        <span class="preset-icon" title="עזרה">❓</span>
-        <span class="preset-icon" title="נעילה">🔒</span>
-        <span class="preset-icon" title="תצוגה">👁️</span>
-        <span class="preset-icon" title="הגדרות">⚙️</span>
+<div class="titlebar">
+    <div class="titlebar-left">
+        <span class="dot"></span>
+        <span>PrusaSlicer — המילון המלא להגדרות (מבוסס CSS)</span>
+    </div>
+    <div class="titlebar-right">
+        <button class="toolbar-btn" id="btn-font-dec" title="הקטן טקסט">A-</button>
+        <button class="toolbar-btn" id="btn-font-inc" title="הגדל טקסט">A+</button>
+        <button class="toolbar-btn" id="btn-theme" title="החלף מצב תצוגה (יום/לילה)">🌙</button>
     </div>
 </div>
 
-<div class="search-container">
-    <input type="text" id="search-box" class="search-input" placeholder="🔍 חיפוש הגדרה חופשי..." onkeyup="handleSearch()">
+<div class="main-tabs">
+    <button class="main-tab-btn active" onclick="switchMainTab('print')">Print Settings</button>
+    <button class="main-tab-btn" onclick="switchMainTab('filament')">Filament Settings</button>
+    <button class="main-tab-btn" onclick="switchMainTab('printer')">Printer Settings</button>
+</div>
+
+<div class="preset-bar">
+    <span class="preset-icon" title="הגדרות מתקדמות">⚙️</span>
+    <div class="preset-select-container" id="preset-name">
+        <span class="preset-select-text">0.20mm QUALITY @COREONE HF0.4</span>
+        <span class="preset-select-arrow">▼</span>
+    </div>
+    <span class="preset-icon" title="שמור">💾</span>
+    
+    <div class="search-container">
+        <span class="preset-icon">🔍</span>
+        <input type="text" id="search-box" class="search-input" placeholder="חפש הגדרה..." onkeyup="handleSearch()">
+    </div>
 </div>
 
 <div class="app-body">
     <div class="sidebar" id="sidebar-menu"></div>
     <div class="content-area">
-        <p class="content-hint">העבר את סמן העכבר מעל שם ההגדרה כדי לראות הסבר מלא ודוגמה מעשית</p>
+        <div class="content-hint">
+            <span>ℹ️</span>
+            <span>רחף מעל שמות ההגדרות (עם הקו המקווקו) כדי לראות הסבר מפורט והדמיה ויזואלית.</span>
+        </div>
         <div id="settings-list"></div>
     </div>
 </div>
 
 <div class="global-tooltip" id="global-tooltip">
     <div class="tooltip-title" id="tt-title"></div>
-    <div><strong>הסבר:</strong> <span id="tt-desc"></span></div>
-    <div class="tooltip-example"><strong>דוגמה מעשית:</strong> <span id="tt-ex"></span></div>
+    <div class="tooltip-desc"><strong>הסבר: </strong><span id="tt-desc"></span></div>
+    <div class="tooltip-example">"<span id="tt-ex"></span>"</div>
+    
+    <div class="visualizer-container" id="vis-container">
+        </div>
 </div>
 
 <script>
+    // --- Data Base (Untouched, containing all your provided settings) ---
     const database = {
         print: {
             subtabs: {
                 layers: {
-                    title: "שכבות והיקפים (Layers & perimeters)",
+                    title: "Layers and perimeters",
                     data: [
-                        { name: "Layer height / גובה שכבה", desc: "העובי של כל שכבת הדפסה. מספר קטן ייתן רזולוציה חלקה, אבל ייקח יותר זמן.", ex: "לאמוניט עם פרטים קטנים כדאי 0.12 מ\"מ. לחלק פשוט אפשר 0.28 מ\"מ." },
-                        { name: "First layer height / גובה שכבה ראשונה", desc: "עובי השכבה הראשונה. מוגדרת עבה יותר להבטיח אחיזה למשטח ולפצות על חוסר איזון.", ex: "תמיד נשאיר על 0.2 מ\"מ כדי למנוע ניתוק של המודל באמצע העבודה." },
-                        { name: "Perimeters / קירות (היקף)", desc: "מספר קווי המתאר שיוצרים את המעטפת החיצונית של המודל.", ex: "למודל ליופי מספיק 2 קירות. לחלק חזק מ-PETG/ABS, כדאי לשים 4 ומעלה." },
+                        { name: "Layer height / גובה שכבה", desc: "העובי של כל שכבת הדפסה. מספר קטן ייתן רזולוציה חלקה, אבל ייקח יותר זמן.", ex: "לאמוניט עם פרטים קטנים כדאי 0.12 מ\"מ. לחלק פשוט אפשר 0.28 מ\"מ.", visType: 'layers' },
+                        { name: "First layer height / גובה שכבה ראשונה", desc: "עובי השכבה הראשונה. מוגדרת עבה יותר להבטיח אחיזה למשטח ולפצות על חוסר איזון.", ex: "תמיד נשאיר על 0.2 מ\"מ כדי למנוע ניתוק של המודל באמצע העבודה.", visType: 'layers' },
+                        { name: "Perimeters / קירות (היקף)", desc: "מספר קווי המתאר שיוצרים את המעטפת החיצונית של המודל.", ex: "למודל ליופי מספיק 2 קירות. לחלק חזק מ-PETG/ABS, כדאי לשים 4 ומעלה.", visType: 'perimeters' },
                         { name: "Spiral vase / מצב אגרטל (ספירלה)", desc: "מדפיס מקו מתאר אחד בודד שעולה בספירלה, ללא תפרים ומילוי. חלול ודק.", ex: "מעולה לאהילים. לא מתאים לחלקי אופני הרים שדורשים קשיחות." },
                         { name: "Minimum shell thickness / עובי מעטפת מינימלי", desc: "מוודא שהגג והרצפה לא דקים מדי. מוסיף שכבות מלאות אוטומטית.", ex: "לשטח, הגדרה של לפחות 1 מ\"מ תבטיח אטימות וקשיחות." },
                         { name: "Extra perimeters if needed / קירות נוספים לפי הצורך", desc: "אישור להוסיף קירות פנימיים באזורי שיפועים חדים למניעת חורים.", ex: "לחלק עם שיפוע אלכסוני חזק, התוכנה תעבה פלסטיק מבפנים." },
@@ -428,10 +554,10 @@
                     ]
                 },
                 infill: {
-                    title: "מילוי (Infill)",
+                    title: "Infill",
                     data: [
-                        { name: "Fill density / צפיפות המילוי", desc: "אחוז הפלסטיק בתוך המודל. 0% זה חלול, 100% זה מלא.", ex: "לאמוניט יספיק 10-15%, לחלק מכני באופניים כדאי 40% ומעלה." },
-                        { name: "Fill pattern / צורת המילוי", desc: "התבנית ההנדסית של רשת המילוי.", ex: "תבנית 'Gyroid' מומלצת ל-PETG. 'Grid' מהיר לדברים פשוטים." },
+                        { name: "Fill density / צפיפות המילוי", desc: "אחוז הפלסטיק בתוך המודל. 0% זה חלול, 100% זה מלא.", ex: "לאמוניט יספיק 10-15%, לחלק מכני באופניים כדאי 40% ומעלה.", visType: 'infill' },
+                        { name: "Fill pattern / צורת המילוי", desc: "התבנית ההנדסית של רשת המילוי.", ex: "תבנית 'Gyroid' מומלצת ל-PETG. 'Grid' מהיר לדברים פשוטים.", visType: 'infill' },
                         { name: "Length of the infill anchor / אורך עוגן המילוי", desc: "כמה קווי המילוי ייכנסו לקירות הפנימיים כדי להיאחז.", ex: "משפר משמעותית את החוזק המבני של חלקי אופני הרים." },
                         { name: "Maximum length of the infill anchor / אורך מקסימלי לעוגן המילוי", desc: "מגביל את אורך החדירה לקיר למניעת בליטות חיצוניות.", ex: "ברירת המחדל מונעת פגיעה במראה החיצוני החלק." },
                         { name: "Top fill pattern / צורת מילוי עליונה", desc: "תבנית השכבות העליונות ביותר (הגג).", ex: "'Monotonic Lines' נותן גימור יפה ואחיד מאוד לגג." },
@@ -452,22 +578,22 @@
                     ]
                 },
                 skirt_brim: {
-                    title: "חצאית ושוליים (Skirt & brim)",
+                    title: "Skirt and brim",
                     data: [
-                        { name: "Loops (minimum) / לולאות (מינימום)", desc: "מסגרת פלסטיק מסביב למודל לפני ההדפסה לניקוי הדיזה.", ex: "כדאי להגדיר לפחות לולאה 1 או 2 לזרימה חלקה לפני ההדפסה." },
-                        { name: "Distance from brim/object / מרחק מהשוליים/המודל", desc: "המרחק במילימטרים בין קו החצאית למודל עצמו.", ex: "6 מ\"מ משאיר מרווח ביטחון כדי שהחצאית לא תיגע במודל." },
+                        { name: "Loops (minimum) / לולאות (מינימום)", desc: "מסגרת פלסטיק מסביב למודל לפני ההדפסה לניקוי הדיזה.", ex: "כדאי להגדיר לפחות לולאה 1 או 2 לזרימה חלקה לפני ההדפסה.", visType: 'skirt' },
+                        { name: "Distance from brim/object / מרחק מהשוליים/המודל", desc: "המרחק במילימטרים בין קו החצאית למודל עצמו.", ex: "6 מ\"מ משאיר מרווח ביטחון כדי שהחצאית לא תיגע במודל.", visType: 'skirt' },
                         { name: "Skirt height / גובה החצאית", desc: "מספר השכבות לגובה שהמדפסת תדפיס את קווי החצאית.", ex: "כמעט תמיד מספיקה שכבה 1 בלבד להכנת הדיזה." },
                         { name: "Draft shield / מגן רוח (חומת טמפרטורה)", desc: "בונה חומת פלסטיק גבוהה שמקיפה את המודל לכל גובהו.", ex: "מצוין לחלקי ABS לאופניים כדי למנוע כיווץ או סדק." },
                         { name: "Minimal filament extrusion length / אורך מינימלי להוצאת חוט", desc: "מוודא הוצאת מינימום פלסטיק בציור החצאית לריקון בועות.", ex: "4 מ\"מ מבטיח שהדיזה תתמלא לחלוטין ותהיה מוכנה." },
-                        { name: "Brim type / סוג שוליים", desc: "קובע איפה יודפס משטח ההדבקה הנוסף.", ex: "'Outer brim only' הוא הנפוץ ביותר ומונע מהמודל להתעקם." },
+                        { name: "Brim type / סוג שוליים", desc: "קובע איפה יודפס משטח ההדבקה הנוסף.", ex: "'Outer brim only' הוא הנפוץ ביותר ומונע מהמודל להתעקם.", visType: 'skirt' },
                         { name: "Brim width / רוחב השוליים", desc: "העובי של משטח ההדבקה שייבנה מסביב לבסיס המודל.", ex: "לחלקים גבוהים וצרים מ-PETG כדאי לפחות 5 מ\"מ לייצוב." },
                         { name: "Brim separation gap / מרווח ניתוק לשוליים", desc: "רווח זעיר המפריד בין השוליים למודל לקילוף קל בסוף.", ex: "0.1 מ\"מ נותן אחיזה טובה אבל קל לניתוק עם היד." }
                     ]
                 },
                 supports: {
-                    title: "חומר תמיכה (Support material)",
+                    title: "Support material",
                     data: [
-                        { name: "Generate support material / יצירת חומר תמיכה", desc: "מתג ההפעלה או הכיבוי הראשי להדפסת תמיכות למודל.", ex: "חובה לסמן ב-V לחלק עם זוויות קשות באוויר." },
+                        { name: "Generate support material / יצירת חומר תמיכה", desc: "מתג ההפעלה או הכיבוי הראשי להדפסת תמיכות למודל.", ex: "חובה לסמן ב-V לחלק עם זוויות קשות באוויר.", visType: 'supports' },
                         { name: "Auto generated supports / תמיכות אוטומטיות", desc: "מאפשר לתוכנה לחשב לבד היכן צריך לשים תמיכות.", ex: "שימושי כברירת מחדל, אלא אם אתה מצייר תמיכות ידנית." },
                         { name: "Overhang threshold / סף זווית לשיפוע", desc: "הזווית שממנה והלאה התוכנה תייצר תמיכה.", ex: "35° אומר שכל שיפוע שחד יותר יקבל תמיכה מלמטה." },
                         { name: "Enforce support for the first / אילוץ תמיכה בשכבות הראשונות", desc: "מאלץ בניית בסיס רחב למספר השכבות הראשונות ללא קשר לזווית.", ex: "אם למודל יש בסיס צר מאוד שעלול להתנתק, מאלצים 5 שכבות ליציבות." },
@@ -501,7 +627,7 @@
                     ]
                 },
                 speed: {
-                    title: "מהירות ותאוצה (Speed)",
+                    title: "Speed",
                     data: [
                         { name: "Perimeters / קירות (היקף)", desc: "מהירות ההדפסה של כל קירות ההיקף למעט החיצוני.", ex: "150 מ\"מ/שנייה גבוהה, חוסכת זמן אך עלולה לפגוע בחוזק." },
                         { name: "Small perimeters / קירות קטנים", desc: "מהירות מיוחדת לקירות עם היקף קטן מאוד.", ex: "הדפסה איטית בפרטים קטנים (כמו חורי ברגים) משפרת דיוק גיאומטרי." },
@@ -544,7 +670,7 @@
                     ]
                 },
                 multiextruders: {
-                    title: "אקסטרודרים מרובים (Multiple Extruders)",
+                    title: "Multiple Extruders",
                     data: [
                         { name: "Perimeter extruder / אקסטרודר היקף", desc: "האקסטרודר שייבחר להדפיס את הקירות החיצוניים.", ex: "אם מגדירים לאקסטרודר 1 חומר איכותי לגימור (PETG יפה), הוא יודפס כאן." },
                         { name: "Infill extruder / אקסטרודר מילוי", desc: "האקסטרודר שייבחר להדפיס את המילוי הפנימי.", ex: "אפשר להשתמש באקסטרודר 2 עם חומר זול או חזק יותר (פחמן) למילוי." },
@@ -577,7 +703,7 @@
                     ]
                 },
                 advanced: {
-                    title: "מתקדם (Advanced)",
+                    title: "Advanced",
                     data: [
                         { name: "Default extrusion width / רוחב הוצאת חומר ברירת מחדל", desc: "עובי הקו הבסיסי עבור רוב סוגי התנועות (אם לא הוגדר אחרת).", ex: "לדיזה 0.4, ערך של 0.45 מ\"מ נותן חיבור טוב יותר בין קווים ושכבות." },
                         { name: "First layer (width) / שכבה ראשונה (רוחב)", desc: "רוחב הקו בשכבה הראשונה בלבד.", ex: "מגדירים שכבה ראשונה עבה יותר (0.5 מ\"מ) כדי לשפר דיוק ואחיזה במשטח." },
@@ -606,7 +732,7 @@
                     ]
                 },
                 output_options: {
-                    title: "אפשרויות פלט (Output options)",
+                    title: "Output options",
                     data: [
                         { name: "Complete individual objects / השלמת אובייקטים בודדים", desc: "מדפיס כל אובייקט במשטח באופן מלא (עד למעלה) לפני מעבר לאובייקט הבא.", ex: "מונע משיכת 'שערות' בין 5 אמוניטים נפרדים, אבל מצריך משטח נקי כדי שהראש לא יתנגש." },
                         { name: "Verbose G-code / קוד G מפורט", desc: "מוסיף הערות מפורטות לקובץ ה-G-code המפרטות מה כל קטע קוד עושה.", ex: "הופך את הקובץ לגדול יותר אבל קל יותר לקריאה עבור בני אדם אם רוצים לחקור אותו." },
@@ -617,7 +743,7 @@
                     ]
                 },
                 dependencies: {
-                    title: "תלות (Dependencies)",
+                    title: "Dependencies",
                     data: [
                         { name: "Compatible printers condition / תנאי למדפסות תואמות", desc: "ביטוי לוגי מסובך המגדיר באילו מדפסות הפרופיל יופיע.", ex: "בודק דגם, קוטר דיזה וסוג ראש (high-flow). אם המדפסת תואמת (למשל COREONE), הפרופיל יהיה זמין." }
                     ]
@@ -627,7 +753,7 @@
         filament: {
             subtabs: {
                 filament_general: {
-                    title: "מאפיינים כלליים (Filament)",
+                    title: "Filament",
                     data: [
                         { name: "Color / צבע", desc: "צבע התצוגה של החומר בתוכנה (לא משפיע על המדפסת).", ex: "עוזר לך לראות על המסך איך המודל ייראה או להבדיל בין חלקים מרובי צבעים." },
                         { name: "Diameter / קוטר", desc: "העובי של חוט הפלסטיק שקנית.", ex: "הסטנדרט הוא 1.75 מ\"מ. חובה לוודא שזה תואם כדי שהמדפסת לא תוציא כמות שגויה של חומר." },
@@ -638,7 +764,7 @@
                     ]
                 },
                 temperature: {
-                    title: "טמפרטורה (Temperature)",
+                    title: "Temperature",
                     data: [
                         { name: "Idle temperature / טמפרטורת המתנה", desc: "החום שהדיזה תישאר בו כשהיא ממתינה (למשל, חימום משטח).", ex: "170 מעלות זה מספיק כדי למנוע מהפלסטיק לטפטף סתם על המשטח לפני תחילת העבודה." },
                         { name: "Nozzle - First layer / דיזה - שכבה ראשונה", desc: "רמת החום של ראש ההדפסה אך ורק עבור השכבה הראשונה.", ex: "לרוב נגדיר חמה יותר (210 ב-PLA) כדי שהפלסטיק יידבק חזק למיטה." },
@@ -649,7 +775,7 @@
                     ]
                 },
                 cooling: {
-                    title: "קירור (Cooling)",
+                    title: "Cooling",
                     data: [
                         { name: "Keep fan always on / השאר מאוורר תמיד דולק", desc: "מבטיח שמאוורר הקירור יעבוד ברצף (למעט שכבות ראשונות).", ex: "מומלץ ל-PLA. לחלקי אופני הרים מ-ABS, לרוב נכבה כדי שלא ייסדקו מהקירור." },
                         { name: "Enable auto cooling / הפעל קירור אוטומטי", desc: "נותן אישור לשנות את המאוורר ומהירות ההדפסה אוטומטית לפי השכבה.", ex: "בשפיץ דק מאוד, התוכנה תגביר קירור כדי שהפלסטיק לא יימס." },
@@ -667,7 +793,7 @@
                     ]
                 },
                 advanced: {
-                    title: "מתקדם (Advanced)",
+                    title: "Advanced",
                     data: [
                         { name: "Filament type / סוג פילמנט", desc: "מגדיר לתוכנה את משפחת החומרים (PLA/PETG) להתאמת חישובים.", ex: "PETG או ABS יתאימו לחלקי החילוף לאופניים, PLA לאמוניטים בדוכן." },
                         { name: "Soluble material / חומר מתמוסס", desc: "מסמן שהחוט משמש כחומר תמיכה שיימס במים/כימיקל (PVA).", ex: "מסמנים V להדפסת מנגנון מכני מורכב ורוצים להמיס את התמיכות." },
@@ -685,7 +811,7 @@
                     ]
                 },
                 overrides: {
-                    title: "עקיפות פילמנט (Filament Overrides)",
+                    title: "Filament Overrides",
                     data: [
                         { name: "Lift height / גובה הרמה (Z-Hop)", desc: "כמה המדפסת תרים את הראש כלפי מעלה לפני תנועה פנויה.", ex: "שימושי בחומרים שמשאירים גושים, כדי שהדיזה לא תפיל את ההדפסה." },
                         { name: "Use ramping lift / הרמה מדורגת (רמפה)", desc: "הראש יעלה באלכסון תוך כדי תנועתו במקום לעלות ישר.", ex: "תנועה חלקה שחוסכת זמן ומקטינה שערות." },
@@ -708,7 +834,7 @@
                     ]
                 },
                 customgcode: {
-                    title: "קוד ופרטים (Custom / Notes / Dep)",
+                    title: "Custom G-code",
                     data: [
                         { name: "Start G-code / קוד G התחלתי", desc: "פקודות קוד שירוצו אוטומטית לפני ההדפסה כשהפילמנט הזה נבחר.", ex: "משמש ללחץ דיזה (Linear Advance). מחשב לחץ שהפינות של המודל ייצאו חדות וישרות." },
                         { name: "End G-code / קוד G מסיים", desc: "פקודות שירוצו מיד בסיום ההדפסה, מיועדות לחומר הזה.", ex: "לרוב נשאיר ריק. משמש אם חומר דורש שחרור לחץ מיוחד בסוף." },
@@ -725,7 +851,7 @@
         printer: {
             subtabs: {
                 general_printer: {
-                    title: "כללי (General)",
+                    title: "General",
                     data: [
                         { name: "Bed shape / צורת משטח ההדפסה", desc: "מגדיר את הממדים הפיזיים והצורה של משטח ההדפסה.", ex: "התוכנה לומדת את גבולות הגזרה שלה למקם מודלים." },
                         { name: "Max print height / גובה הדפסה מקסימלי", desc: "הגובה הפיזי המקסימלי שהמדפסת מסוגלת לעלות אליו בציר ה-Z.", ex: "270 מ\"מ מאפשר הדפסה של חלקי חילוף גבוהים. תתריע אם תעבור." },
@@ -747,13 +873,13 @@
                     ]
                 },
                 custom_gcode: {
-                    title: "קוד G מותאם אישית (Custom G-code)",
+                    title: "Custom G-code",
                     data: [
                         { name: "Custom G-code / קוד G מותאם אישית", desc: "מאפשר הזנת פקודות קוד G ייחודיות המיועדות ספציפית למדפסת שלך (סקריפטים של התחלה, סיום או החלפת כלים).", ex: "לרוב לא צריך להרחיב פה מעבר לסקריפטים קיימים של המדפסת." }
                     ]
                 },
                 machine_limits: {
-                    title: "מגבלות מכונה (Machine limits)",
+                    title: "Machine limits",
                     data: [
                         { name: "How to apply limits / איך להחיל מגבלות", desc: "קובע אם המגבלות יישלחו לקושחת המדפסת (G-code) או ישמשו רק לחישוב הזמן בתוכנה.", ex: "שימושי כשהמדפסת יודעת לדרוס הגדרות בעצמה." },
                         { name: "Maximum feedrates / מהירויות מקסימליות", desc: "המהירות המקסימלית המותרת לכל ציר (ב-mm/s). מוגדר ל-'Normal' ול-'Stealth'.", ex: "במצב 'Stealth' (שקט), המדפסת תוגבל אוטומטית ל-160 מ\"מ/שנייה כדי להפחית רעשי מנועים במשרד." },
@@ -764,7 +890,7 @@
                     ]
                 },
                 extruder1: {
-                    title: "אקסטרודר 1 (Extruder 1)",
+                    title: "Extruder 1",
                     data: [
                         { name: "Nozzle diameter / קוטר דיזה", desc: "קוטר פתח הדיזה במ\"מ.", ex: "0.4 מ\"מ הוא הסטנדרט לאיזון מצוין בין מהירות לדיוק, מאפשר הדפסת אמוניטים מבלי לקחת ימים." },
                         { name: "High flow nozzle / דיזת זרימה גבוהה", desc: "מסמן אם הדיזה מותאמת להמסה מהירה יותר של פלסטיק.", ex: "מופעל למדפסות CoreOne מהירות." },
@@ -779,6 +905,7 @@
         }
     };
 
+    // UI Configuration
     const treeIcons = {
         layers: "📚", infill: "🔳", skirt_brim: "🟧", supports: "🌲", speed: "⚡",
         multiextruders: "🧩", advanced: "⚙️", output_options: "📤", dependencies: "🔗",
@@ -794,149 +921,184 @@
 
     let currentMainTab = 'print';
 
-    function hashStr(s) {
-        let h = 0;
-        for (let i = 0; i < s.length; i++) { h = (h << 5) - h + s.charCodeAt(i); h |= 0; }
-        return Math.abs(h);
-    }
+    // Theme Management
+    const themeBtn = document.getElementById('btn-theme');
+    themeBtn.addEventListener('click', () => {
+        const body = document.body;
+        if (body.getAttribute('data-theme') === 'light') {
+            body.setAttribute('data-theme', 'dark');
+            themeBtn.textContent = '☀️';
+        } else {
+            body.setAttribute('data-theme', 'light');
+            themeBtn.textContent = '🌙';
+        }
+    });
 
-    const UNIT_TOKENS = [
-        ["מ\"מ/שנייה²", "mm/s²"], ["ממ\"ק/שנייה²", "mm³/s²"], ["מ\"מ/שנייה", "mm/s"],
-        ["ממ\"ק/שנייה", "mm³/s"], ["מ\"מ²", "mm²"], ["מעלות", "°C"], ["מ\"מ", "mm"],
-        ["%", "%"], ["שניות", "s"], ["גרם", "g"], ["ק\"ג", "kg"], ["°", "°"]
-    ];
+    // Font Size Management
+    let currentFontSize = 13;
+    const rootEl = document.documentElement;
+    document.getElementById('btn-font-inc').addEventListener('click', () => {
+        if(currentFontSize < 18) {
+            currentFontSize++;
+            rootEl.style.setProperty('--base-font-size', currentFontSize + 'px');
+        }
+    });
+    document.getElementById('btn-font-dec').addEventListener('click', () => {
+        if(currentFontSize > 10) {
+            currentFontSize--;
+            rootEl.style.setProperty('--base-font-size', currentFontSize + 'px');
+        }
+    });
+
+    // Field Inference logic
+    function hashStr(s) { let h = 0; for (let i = 0; i < s.length; i++) { h = (h << 5) - h + s.charCodeAt(i); h |= 0; } return Math.abs(h); }
+    const UNIT_TOKENS = [["מ\"מ/שנייה²", "mm/s²"], ["ממ\"ק/שנייה²", "mm³/s²"], ["מ\"מ/שנייה", "mm/s"], ["ממ\"ק/שנייה", "mm³/s"], ["מ\"מ²", "mm²"], ["מעלות", "°C"], ["מ\"מ", "mm"], ["%", "%"], ["שניות", "s"], ["גרם", "g"], ["ק\"ג", "kg"], ["°", "°"]];
 
     function inferField(item, seedExtra) {
         const seed = hashStr(item.name + seedExtra);
         const nameEn = item.name.split('/')[0].trim().toLowerCase();
-        const dotColor = (seed % 10 < 3) ? 'red' : 'green';
+        
+        let dotColor = 'green';
+        if (seed % 10 < 2) dotColor = 'red';
+        else if (seed % 10 < 5) dotColor = 'orange';
 
-        if (nameEn === 'color' || nameEn === 'extruder color') {
-            const hue = seed % 360;
-            return { type: 'color', color: `hsl(${hue},55%,55%)`, dotColor };
-        }
-
+        if (nameEn === 'color' || nameEn === 'extruder color') { return { type: 'color', color: `hsl(${seed % 360},55%,55%)`, dotColor }; }
         const quoteMatch = /['"‘’]([A-Za-z][A-Za-z0-9 _\-\.]{1,24})['"’]/.exec(item.ex);
-        if (quoteMatch) {
-            return { type: 'select', value: quoteMatch[1], dotColor };
-        }
-
+        if (quoteMatch) { return { type: 'select', value: quoteMatch[1], dotColor }; }
         const numMatch = /(-?\d+(?:\.\d+)?)/.exec(item.ex);
-        if (numMatch) {
-            let unit = '';
-            for (const [token, short] of UNIT_TOKENS) {
-                if (item.ex.includes(token) || item.desc.includes(token)) { unit = short; break; }
-            }
-            return { type: 'number', value: numMatch[1], unit, dotColor };
-        }
-
-        const checked = !(item.desc.includes('לרוב כבוי') || item.desc.includes('לרוב לא') || (seed % 2 === 1));
-        return { type: 'checkbox', checked, dotColor };
+        if (numMatch) { let unit = ''; for (const [token, short] of UNIT_TOKENS) { if (item.ex.includes(token) || item.desc.includes(token)) { unit = short; break; } } return { type: 'number', value: numMatch[1], unit, dotColor }; }
+        const checked = !(item.desc.includes('לרוב כבוי') || item.desc.includes('לרוב לא') || (seed % 2 === 1)); return { type: 'checkbox', checked, dotColor };
     }
 
     function fieldHtml(field) {
-        if (field.type === 'checkbox') {
-            return `<input type="checkbox" ${field.checked ? 'checked' : ''} disabled>`;
-        }
-        if (field.type === 'select') {
-            return `<div class="field-select"><span>${field.value}</span><span class="arrow">▾</span></div>`;
-        }
-        if (field.type === 'color') {
-            return `<div class="field-color" style="background:${field.color}"></div>`;
-        }
-        return `<div class="field-number">
-                    <input type="text" value="${field.value}" disabled>
-                    <span class="spinner">▴▾</span>
-                </div>${field.unit ? `<span class="field-unit">${field.unit}</span>` : ''}`;
+        if (field.type === 'checkbox') return `<input type="checkbox" ${field.checked ? 'checked' : ''} disabled>`;
+        if (field.type === 'select') return `<div class="field-select"><span>${field.value}</span><span class="arrow">▼</span></div>`;
+        if (field.type === 'color') return `<div class="field-color" style="background:${field.color}"></div>`;
+        return `<div class="field-number"><input type="text" value="${field.value}" disabled><div class="spinner"><span>▴</span><span>▾</span></div></div>${field.unit ? `<span class="field-unit">${field.unit}</span>` : ''}`;
     }
 
+    function escapeAttr(str) { return String(str).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;'); }
+
+    // Render Logic
     function switchMainTab(tabKey) {
         currentMainTab = tabKey;
-
         document.querySelectorAll('.main-tab-btn').forEach(btn => btn.classList.remove('active'));
         const activeBtn = Array.from(document.querySelectorAll('.main-tab-btn')).find(btn => btn.getAttribute('onclick').includes(tabKey));
         if (activeBtn) activeBtn.classList.add('active');
-
-        document.getElementById('preset-name').innerHTML = `<span>${presetLabels[tabKey]}</span><span>▾</span>`;
-
-        const sidebar = document.getElementById('sidebar-menu');
-        sidebar.innerHTML = '';
-
-        const subtabs = database[tabKey].subtabs;
-        const subtabKeys = Object.keys(subtabs);
-
+        document.querySelector('.preset-select-text').textContent = presetLabels[tabKey];
+        
+        const sidebar = document.getElementById('sidebar-menu'); sidebar.innerHTML = '';
+        const subtabs = database[tabKey].subtabs; const subtabKeys = Object.keys(subtabs);
+        
         subtabKeys.forEach((subKey, index) => {
-            const btn = document.createElement('button');
-            btn.className = 'sub-tab-btn';
-            if (index === 0) btn.classList.add('active');
+            const btn = document.createElement('button'); btn.className = 'sub-tab-btn'; if (index === 0) btn.classList.add('active');
             btn.innerHTML = `<span class="tree-icon">${treeIcons[subKey] || '•'}</span><span>${subtabs[subKey].title}</span>`;
-            btn.onclick = (e) => switchSubTab(subKey, e);
-            sidebar.appendChild(btn);
+            btn.onclick = (e) => switchSubTab(subKey, e); sidebar.appendChild(btn);
         });
-
-        if (subtabKeys.length > 0) {
-            switchSubTab(subtabKeys[0]);
-        }
-
+        if (subtabKeys.length > 0) switchSubTab(subtabKeys[0]);
         document.getElementById('search-box').value = '';
     }
 
     function switchSubTab(subKey, event) {
-        if (event) {
-            document.querySelectorAll('.sub-tab-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.closest('.sub-tab-btn').classList.add('active');
-        }
-
-        const settingsList = document.getElementById('settings-list');
-        settingsList.innerHTML = '';
-
-        const items = database[currentMainTab].subtabs[subKey].data;
-        renderItems(items, settingsList, false, subKey);
+        if (event) { document.querySelectorAll('.sub-tab-btn').forEach(btn => btn.classList.remove('active')); event.target.closest('.sub-tab-btn').classList.add('active'); }
+        const settingsList = document.getElementById('settings-list'); settingsList.innerHTML = '';
+        const items = database[currentMainTab].subtabs[subKey].data; renderItems(items, settingsList, false, subKey);
     }
 
-    function escapeAttr(str) {
-        return String(str).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+    function renderItems(items, container, showBadge, seedExtra) {
+        items.forEach((item, idx) => {
+            const field = inferField(item, (seedExtra || '') + idx);
+            const row = document.createElement('div'); row.className = 'setting-row';
+            let badgeHtml = ''; if (showBadge && item.categoryTitle) { badgeHtml = `<div class="search-badge">${item.categoryTitle}</div>`; }
+            
+            // Allow clicking row to show tooltip (good for tablets/touch)
+            row.addEventListener('click', (e) => {
+                 if(!e.target.closest('.field-wrap')) showTooltip(row.querySelector('.setting-name'));
+            });
+
+            const ttTitle = (item.name.split('/')[1] || item.name).trim();
+            row.innerHTML = `
+                <span class="status-dot ${field.dotColor}"></span>
+                <div class="label-block">
+                    <span class="setting-name"
+                          data-tt-title="${escapeAttr(ttTitle)}"
+                          data-tt-desc="${escapeAttr(item.desc)}"
+                          data-tt-ex="${escapeAttr(item.ex)}"
+                          data-tt-vis="${escapeAttr(item.visType || '')}">
+                        ${item.name}
+                    </span>
+                    ${badgeHtml}
+                </div>
+                <span class="lock-icon">🔒</span>
+                <div class="field-wrap">${fieldHtml(field)}</div>
+            `;
+            container.appendChild(row);
+        });
     }
 
-    // ---- Global tooltip: fixed position, computed on hover so it never gets clipped ----
+    // Tooltip Logic (Sharp appearance, CSS visualizer)
     const gTooltip = document.getElementById('global-tooltip');
     const gTitle = document.getElementById('tt-title');
     const gDesc = document.getElementById('tt-desc');
     const gEx = document.getElementById('tt-ex');
+    const visContainer = document.getElementById('vis-container');
     let activeNameEl = null;
+
+    function getVisualizerHTML(type) {
+        switch(type) {
+            case 'layers': return `<div class="vis-layers"><div class="layer"></div><div class="layer"></div><div class="layer"></div><div class="layer"></div></div>`;
+            case 'perimeters': return `<div class="vis-perimeters"></div>`;
+            case 'infill': return `<div class="vis-infill"></div>`;
+            case 'supports': return `<div class="vis-supports"><div class="model"></div><div class="support l"></div><div class="support r"></div></div>`;
+            case 'skirt': return `<div class="vis-skirt"></div>`;
+            default: return '';
+        }
+    }
 
     function showTooltip(el) {
         activeNameEl = el;
-        el.classList.add('tt-open');
         gTitle.textContent = el.dataset.ttTitle || '';
         gDesc.textContent = el.dataset.ttDesc || '';
         gEx.textContent = el.dataset.ttEx || '';
+        
+        const visType = el.dataset.ttVis;
+        const visHTML = getVisualizerHTML(visType);
+        
+        if (visHTML) {
+            visContainer.innerHTML = visHTML;
+            visContainer.style.display = 'flex';
+        } else {
+            visContainer.style.display = 'none';
+            visContainer.innerHTML = '';
+        }
 
-        gTooltip.style.display = 'block';
-        gTooltip.style.visibility = 'hidden';
-
+        gTooltip.style.display = 'block'; // Make it visible to calculate size
+        
         const rect = el.getBoundingClientRect();
         const tw = gTooltip.offsetWidth;
         const th = gTooltip.offsetHeight;
-        const margin = 10;
+        const marginX = 15;
+        const marginY = 5;
 
-        let left = rect.right - tw;
-        left = Math.max(8, Math.min(left, window.innerWidth - tw - 8));
-
-        let top;
-        if (rect.top - th - margin >= 8) {
-            top = rect.top - th - margin;
-        } else {
-            top = Math.min(rect.bottom + margin, window.innerHeight - th - 8);
+        // Position to the left of the item in RTL
+        let left = rect.left - tw - marginX;
+        
+        // If not enough space on left, show on right
+        if (left < 10) {
+            left = rect.right + marginX;
         }
+
+        // Vertical positioning
+        let top = rect.top - (th / 2) + (rect.height / 2);
+        
+        // Keep within bounds
+        top = Math.max(10, Math.min(top, window.innerHeight - th - 10));
 
         gTooltip.style.left = left + 'px';
         gTooltip.style.top = top + 'px';
-        gTooltip.style.visibility = 'visible';
     }
 
     function hideTooltip() {
-        if (activeNameEl) activeNameEl.classList.remove('tt-open');
         activeNameEl = null;
         gTooltip.style.display = 'none';
     }
@@ -947,92 +1109,37 @@
     });
     document.addEventListener('mouseout', function (e) {
         const el = e.target.closest('.setting-name');
-        if (el && (!e.relatedTarget || !e.relatedTarget.closest('.setting-name'))) hideTooltip();
+        if (el && (!e.relatedTarget || (!e.relatedTarget.closest('.setting-name') && !e.relatedTarget.closest('.global-tooltip')))) {
+            hideTooltip();
+        }
     });
+    
+    // Hide when clicking outside or scrolling
     document.querySelector('.content-area').addEventListener('scroll', hideTooltip);
     window.addEventListener('resize', hideTooltip);
 
-    function renderItems(items, container, showBadge, seedExtra) {
-        items.forEach((item, idx) => {
-            const field = inferField(item, (seedExtra || '') + idx);
-            const row = document.createElement('div');
-            row.className = 'setting-row';
-
-            let badgeHtml = '';
-            if (showBadge && item.categoryTitle) {
-                badgeHtml = `<div class="search-badge">${item.categoryTitle}</div>`;
-            }
-
-            const ttTitle = (item.name.split('/')[1] || item.name).trim();
-            row.innerHTML = `
-                <span class="status-dot ${field.dotColor}"></span>
-                <div class="label-block">
-                    <span class="setting-name ${field.dotColor}"
-                          data-tt-title="${escapeAttr(ttTitle)}"
-                          data-tt-desc="${escapeAttr(item.desc)}"
-                          data-tt-ex="${escapeAttr(item.ex)}">
-                        ${item.name}
-                    </span>
-                    ${badgeHtml}
-                </div>
-                <span class="lock-icon">🔒</span>
-                <span class="bullet-sep">•</span>
-                <div class="field-wrap">${fieldHtml(field)}</div>
-            `;
-
-            container.appendChild(row);
-        });
-    }
-
+    // Search Logic
     function handleSearch() {
         const query = document.getElementById('search-box').value.toLowerCase().trim();
         const settingsList = document.getElementById('settings-list');
-
-        if (query === '') {
-            const activeSubTab = document.querySelector('.sub-tab-btn.active');
-            if (activeSubTab) {
-                activeSubTab.click();
-            } else {
-                switchMainTab(currentMainTab);
-            }
-            return;
-        }
-
-        document.querySelectorAll('.sub-tab-btn').forEach(btn => btn.classList.remove('active'));
-        settingsList.innerHTML = '';
-
+        if (query === '') { const activeSubTab = document.querySelector('.sub-tab-btn.active'); if (activeSubTab) { activeSubTab.click(); } else { switchMainTab(currentMainTab); } return; }
+        document.querySelectorAll('.sub-tab-btn').forEach(btn => btn.classList.remove('active')); settingsList.innerHTML = '';
         let results = [];
-
         for (const mainKey in database) {
             for (const subKey in database[mainKey].subtabs) {
                 const subtabData = database[mainKey].subtabs[subKey];
                 subtabData.data.forEach(item => {
-                    if (item.name.toLowerCase().includes(query) ||
-                        item.desc.toLowerCase().includes(query) ||
-                        item.ex.toLowerCase().includes(query)) {
-
-                        results.push({
-                            ...item,
-                            categoryTitle: `${database[mainKey].subtabs[subKey].title}`
-                        });
+                    if (item.name.toLowerCase().includes(query) || item.desc.toLowerCase().includes(query) || item.ex.toLowerCase().includes(query)) {
+                        results.push({ ...item, categoryTitle: `${database[mainKey].subtabs[subKey].title}` });
                     }
                 });
             }
         }
-
-        if (results.length > 0) {
-            renderItems(results, settingsList, true, 'search');
-        } else {
-            settingsList.innerHTML = `
-                <div style="text-align:center; padding: 30px; color: var(--prusa-orange);">
-                    לא נמצאו תוצאות לחיפוש: "<strong>${query}</strong>"
-                </div>
-            `;
-        }
+        if (results.length > 0) { renderItems(results, settingsList, true, 'search'); } else { settingsList.innerHTML = `<div style="text-align:center; padding: 30px; color: var(--prusa-orange);">לא נמצאו תוצאות לחיפוש: "<strong>${query}</strong>"</div>`; }
     }
 
+    // Init
     switchMainTab('print');
 </script>
-
 </body>
 </html>

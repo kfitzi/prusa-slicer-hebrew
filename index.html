@@ -6,292 +6,389 @@
     <title>PrusaSlicer - המילון המלא להגדרות</title>
     <style>
         :root {
+            --app-bg: #e9e9e9;
+            --panel-bg: #ffffff;
+            --border: #b8b8b8;
+            --border-light: #e2e2e2;
+            --text: #1f1f1f;
+            --text-muted: #666666;
+            --select-bg: #cfe4fb;
+            --select-border: #7fb2e6;
+            --green: #2e7d32;
+            --red: #c1440e;
             --prusa-orange: #e76f51;
-            --bg-main: #202225;
-            --bg-sidebar: #2f3136;
-            --bg-content: #36393f;
-            --text-main: #dcddde;
-            --text-light: #ffffff;
-            --border-color: #4f545c;
-            --tooltip-bg: #f4f1de;
+            --tooltip-bg: #fffdf6;
+            --tooltip-border: #e07b39;
         }
-        
+
+        * { box-sizing: border-box; }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-main);
-            color: var(--text-main);
+            background-color: var(--app-bg);
+            color: var(--text);
             margin: 0;
             padding: 0;
             height: 100vh;
             display: flex;
             flex-direction: column;
+            font-size: 13px;
         }
 
-        header {
-            background-color: #2f3136;
-            border-bottom: 3px solid var(--prusa-orange);
-            padding: 15px 20px;
+        /* ---------- Title strip ---------- */
+        .titlebar {
+            background: linear-gradient(#3a3a3a, #2b2b2b);
+            color: #eee;
+            padding: 6px 14px;
+            font-size: 12px;
             display: flex;
-            flex-direction: column;
             align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid #000;
         }
+        .titlebar .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--prusa-orange); }
 
-        header h1 {
-            margin: 0;
-            font-size: 24px;
-            color: var(--prusa-orange);
-        }
-
-        header p {
-            margin: 5px 0 0 0;
-            font-size: 14px;
-            color: #b9bbbe;
-        }
-
-        .search-container {
-            width: 100%;
-            background-color: #2f3136;
-            padding: 10px 0;
-            display: flex;
-            justify-content: center;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .search-input {
-            width: 50%;
-            max-width: 500px;
-            padding: 10px 20px;
-            border-radius: 20px;
-            border: 1px solid var(--border-color);
-            background-color: var(--bg-main);
-            color: var(--text-light);
-            font-size: 15px;
-            outline: none;
-            transition: 0.2s;
-        }
-
-        .search-input:focus {
-            border-color: var(--prusa-orange);
-            box-shadow: 0 0 5px rgba(231, 111, 81, 0.5);
-        }
-        
+        /* ---------- Main section tabs (Print/Filament/Printer) ---------- */
         .main-tabs {
             display: flex;
-            background-color: #2f3136;
-            padding: 0 10px;
-            border-bottom: 1px solid var(--border-color);
+            background-color: #dcdcdc;
+            border-bottom: 1px solid var(--border);
+            padding: 6px 8px 0 8px;
+            gap: 4px;
         }
 
         .main-tab-btn {
-            background: none;
-            color: #b9bbbe;
-            border: none;
-            padding: 15px 25px;
+            background: #cfcfcf;
+            color: #333;
+            border: 1px solid var(--border);
+            border-bottom: none;
+            padding: 7px 22px;
             cursor: pointer;
-            font-weight: bold;
-            font-size: 15px;
-            border-bottom: 3px solid transparent;
-            transition: 0.2s;
+            font-size: 13px;
+            border-radius: 3px 3px 0 0;
+            position: relative;
+            top: 1px;
         }
 
-        .main-tab-btn:hover {
-            color: var(--text-light);
-            background-color: rgba(255,255,255,0.05);
-        }
+        .main-tab-btn:hover { background: #d8d8d8; }
 
         .main-tab-btn.active {
-            color: var(--prusa-orange);
-            border-bottom: 3px solid var(--prusa-orange);
-            background-color: rgba(231, 111, 81, 0.05);
+            background: #1f1f1f;
+            color: #fff;
+            border-color: #1f1f1f;
+            font-weight: 600;
         }
 
+        /* ---------- Preset row ---------- */
+        .preset-bar {
+            background-color: var(--panel-bg);
+            border-bottom: 1px solid var(--border);
+            padding: 6px 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .preset-icon { opacity: 0.65; font-size: 14px; }
+
+        .preset-select {
+            flex: 1;
+            max-width: 420px;
+            background: #f6f6f6;
+            border: 1px solid var(--border);
+            border-radius: 2px;
+            padding: 4px 10px;
+            color: var(--text);
+            font-weight: 600;
+            font-size: 12.5px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .preset-icons { display: flex; gap: 10px; margin-right: auto; }
+
+        /* ---------- Search ---------- */
+        .search-container {
+            background-color: var(--panel-bg);
+            padding: 8px 12px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .search-input {
+            width: 100%;
+            max-width: 360px;
+            padding: 6px 10px;
+            border-radius: 2px;
+            border: 1px solid var(--border);
+            background-color: #fff;
+            color: var(--text);
+            font-size: 13px;
+            outline: none;
+        }
+
+        .search-input:focus {
+            border-color: #7fb2e6;
+            box-shadow: 0 0 0 2px rgba(127,178,230,0.35);
+        }
+
+        /* ---------- Body layout ---------- */
         .app-body {
             display: flex;
-            flex-direction: row-reverse; /* מכריח את התפריט להיות בצד שמאל ב-RTL */
+            flex-direction: row-reverse;
             flex: 1;
             overflow: hidden;
         }
 
         .sidebar {
-            width: 260px;
-            min-width: 260px;
-            background-color: var(--bg-sidebar);
-            border-right: 1px solid var(--border-color); /* קו בצד ימין של התפריט */
+            width: 235px;
+            min-width: 235px;
+            background-color: var(--panel-bg);
+            border-right: 1px solid var(--border);
             overflow-y: auto;
-            padding-top: 10px;
+            padding: 6px 0;
         }
 
         .sub-tab-btn {
-            display: block;
+            display: flex;
+            align-items: center;
+            gap: 8px;
             width: 100%;
             text-align: right;
             background: none;
             border: none;
-            color: #b9bbbe;
-            padding: 12px 20px;
+            color: #2a2a2a;
+            padding: 6px 14px;
             cursor: pointer;
-            font-size: 14px;
-            transition: 0.1s;
-            border-left: 4px solid transparent; /* פס סימון בצד שמאל */
+            font-size: 13px;
+            border-radius: 2px;
         }
 
-        .sub-tab-btn:hover {
-            background-color: rgba(255,255,255,0.05);
-            color: var(--text-light);
-        }
+        .sub-tab-btn .tree-icon { font-size: 13px; width: 16px; text-align: center; opacity: 0.85; }
+
+        .sub-tab-btn:hover { background-color: #f1f1f1; }
 
         .sub-tab-btn.active {
-            color: var(--text-light);
-            background-color: #40444b;
-            font-weight: bold;
-            border-left: 4px solid var(--prusa-orange);
+            background-color: var(--select-bg);
+            border: 1px solid var(--select-border);
+            padding: 5px 13px;
+            font-weight: 600;
         }
 
         .content-area {
             flex: 1;
-            background-color: var(--bg-content);
-            padding: 20px;
+            background-color: var(--panel-bg);
+            padding: 18px 24px;
             overflow-y: auto;
         }
 
-        .settings-table {
-            width: 100%;
-            border-collapse: collapse;
+        .content-hint {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin: 0 0 14px 0;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-light);
         }
 
-        .settings-table th {
-            text-align: right;
-            background-color: #2f3136;
-            color: var(--prusa-orange);
-            padding: 12px;
-            font-size: 15px;
-            border: 1px solid var(--border-color);
-            position: sticky;
-            top: 0;
-            z-index: 10;
+        /* ---------- Setting rows ---------- */
+        #settings-list { display: flex; flex-direction: column; }
+
+        .setting-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 7px 4px;
+            border-bottom: 1px solid var(--border-light);
         }
 
-        .settings-table td {
-            padding: 15px 12px;
-            border: 1px solid var(--border-color);
-            vertical-align: top;
-        }
+        .setting-row:hover { background-color: #fafafa; }
 
-        .setting-row:nth-child(even) {
-            background-color: rgba(255,255,255,0.02);
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            min-width: 8px;
+            border-radius: 50%;
+            margin-top: 6px;
+        }
+        .status-dot.green { background-color: var(--green); }
+        .status-dot.red { background-color: var(--red); }
+
+        .label-block {
+            flex: 0 0 40%;
+            max-width: 420px;
         }
 
         .setting-name {
-            font-weight: bold;
-            color: var(--text-light);
+            font-weight: 600;
             cursor: help;
-            position: relative;
             display: inline-block;
-            border-bottom: 1px dashed #b9bbbe;
-            padding-bottom: 2px;
-            font-size: 14px;
+            border-bottom: 1px dashed currentColor;
+            padding-bottom: 1px;
+            font-size: 13px;
         }
+        .setting-name.green { color: var(--green); }
+        .setting-name.red { color: var(--red); }
+        .setting-name:hover, .setting-name.tt-open { opacity: 0.7; }
 
-        .setting-name:hover {
+        .search-badge {
+            display: inline-block;
+            background-color: rgba(231, 111, 81, 0.12);
             color: var(--prusa-orange);
-            border-bottom-color: var(--prusa-orange);
+            border: 1px solid rgba(231,111,81,0.4);
+            padding: 1px 8px;
+            border-radius: 10px;
+            font-size: 10.5px;
+            margin-top: 5px;
         }
 
-        .tooltip {
-            visibility: hidden;
-            width: 400px;
+        .lock-icon { color: #999; font-size: 12px; margin: 0 2px; user-select: none; }
+        .bullet-sep { color: #aaa; font-size: 12px; }
+
+        .field-wrap { display: flex; align-items: center; gap: 6px; flex: 1; }
+
+        /* checkbox */
+        .field-wrap input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            accent-color: var(--prusa-orange);
+        }
+
+        /* number field */
+        .field-number {
+            display: flex;
+            align-items: center;
+            border: 1px solid var(--border);
+            border-radius: 2px;
+            background: #fff;
+            overflow: hidden;
+            height: 24px;
+        }
+        .field-number input {
+            border: none;
+            width: 62px;
+            padding: 0 6px;
+            font-size: 12.5px;
+            color: var(--text);
+            background: #fbfbfb;
+        }
+        .field-number .spinner {
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid var(--border-light);
+            font-size: 8px;
+            line-height: 8px;
+            color: #888;
+            padding: 2px 3px;
+            user-select: none;
+        }
+        .field-unit { font-size: 12px; color: var(--text-muted); }
+
+        /* dropdown-look field */
+        .field-select {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            border: 1px solid var(--border);
+            border-radius: 2px;
+            background: #fbfbfb;
+            padding: 3px 8px;
+            min-width: 130px;
+            height: 24px;
+            font-size: 12.5px;
+        }
+        .field-select .arrow { color: #888; font-size: 10px; }
+
+        /* color swatch */
+        .field-color {
+            width: 22px;
+            height: 18px;
+            border: 1px solid var(--border);
+            border-radius: 2px;
+        }
+
+        /* ---------- Tooltip (single global element, fixed position, JS-placed) ---------- */
+        .global-tooltip {
+            display: none;
+            position: fixed;
+            width: 380px;
+            max-width: calc(100vw - 24px);
             background-color: var(--tooltip-bg);
             color: #2b2d42;
             text-align: right;
-            border-radius: 8px;
-            padding: 15px;
-            position: absolute;
-            z-index: 999;
-            bottom: 130%;
-            right: 0;
-            box-shadow: 0px 8px 24px rgba(0,0,0,0.6);
-            opacity: 0;
-            transition: opacity 0.2s;
-            border: 3px solid var(--prusa-orange);
-            font-size: 14px;
+            border-radius: 6px;
+            padding: 14px;
+            z-index: 9999;
+            box-shadow: 0px 10px 26px rgba(0,0,0,0.32);
+            border: 2px solid var(--tooltip-border);
+            font-size: 13.5px;
             line-height: 1.6;
             font-weight: normal;
-        }
-
-        .tooltip::after {
-            content: "";
-            position: absolute;
-            top: 100%;
-            right: 30px;
-            border-width: 8px;
-            border-style: solid;
-            border-color: var(--prusa-orange) transparent transparent transparent;
-        }
-
-        .setting-name:hover .tooltip {
-            visibility: visible;
-            opacity: 1;
+            pointer-events: none;
         }
 
         .tooltip-title {
             font-weight: bold;
-            color: #e76f51;
-            margin-bottom: 10px;
+            color: var(--prusa-orange);
+            margin-bottom: 9px;
             border-bottom: 2px solid #2b2d42;
             padding-bottom: 5px;
-            font-size: 16px;
+            font-size: 15px;
         }
 
         .tooltip-example {
-            margin-top: 12px;
-            background-color: rgba(231, 111, 81, 0.12);
-            padding: 10px;
+            margin-top: 11px;
+            background-color: rgba(231, 111, 81, 0.10);
+            padding: 9px 10px;
             border-right: 4px solid var(--prusa-orange);
             border-radius: 4px;
             font-weight: 500;
         }
-        
-        .search-badge {
-            display: inline-block;
-            background-color: rgba(231, 111, 81, 0.2);
-            color: var(--prusa-orange);
-            padding: 3px 8px;
-            border-radius: 12px;
-            font-size: 11px;
-            margin-top: 8px;
-        }
+
+        ::-webkit-scrollbar { width: 10px; height: 10px; }
+        ::-webkit-scrollbar-track { background: #eee; }
+        ::-webkit-scrollbar-thumb { background: #bbb; border-radius: 5px; }
     </style>
 </head>
 <body>
 
-<header>
-    <h1>PrusaSlicer - המילון המלא להגדרות</h1>
-    <p>העבר את סמן העכבר מעל המונחים כדי לחשוף את ההסבר המלא והדוגמאות</p>
-</header>
-
-<div class="search-container">
-    <input type="text" id="search-box" class="search-input" placeholder="חיפוש הגדרה חופשי..." onkeyup="handleSearch()">
-</div>
+<div class="titlebar"><span class="dot"></span> PrusaSlicer — המילון המלא להגדרות</div>
 
 <div class="main-tabs">
-    <button class="main-tab-btn active" onclick="switchMainTab('print')">הגדרות הדפסה (Print Settings)</button>
-    <button class="main-tab-btn" onclick="switchMainTab('filament')">הגדרות פילמנט (Filament Settings)</button>
-    <button class="main-tab-btn" onclick="switchMainTab('printer')">הגדרות מדפסת (Printer Settings)</button>
+    <button class="main-tab-btn active" onclick="switchMainTab('print')">Print Settings — הגדרות הדפסה</button>
+    <button class="main-tab-btn" onclick="switchMainTab('filament')">Filament Settings — הגדרות פילמנט</button>
+    <button class="main-tab-btn" onclick="switchMainTab('printer')">Printer Settings — הגדרות מדפסת</button>
+</div>
+
+<div class="preset-bar">
+    <span class="preset-icon">📁</span>
+    <div class="preset-select" id="preset-name"><span>0.20mm QUALITY @COREONE HF0.4</span><span>▾</span></div>
+    <div class="preset-icons">
+        <span class="preset-icon" title="שמור">💾</span>
+        <span class="preset-icon" title="עזרה">❓</span>
+        <span class="preset-icon" title="נעילה">🔒</span>
+        <span class="preset-icon" title="תצוגה">👁️</span>
+        <span class="preset-icon" title="הגדרות">⚙️</span>
+    </div>
+</div>
+
+<div class="search-container">
+    <input type="text" id="search-box" class="search-input" placeholder="🔍 חיפוש הגדרה חופשי..." onkeyup="handleSearch()">
 </div>
 
 <div class="app-body">
     <div class="sidebar" id="sidebar-menu"></div>
     <div class="content-area">
-        <table class="settings-table">
-            <thead>
-                <tr>
-                    <th style="width: 35%;">שם ההגדרה (אנגלית / עברית)</th>
-                    <th style="width: 65%;">תיאור</th>
-                </tr>
-            </thead>
-            <tbody id="settings-list"></tbody>
-        </table>
+        <p class="content-hint">העבר את סמן העכבר מעל שם ההגדרה כדי לראות הסבר מלא ודוגמה מעשית</p>
+        <div id="settings-list"></div>
     </div>
+</div>
+
+<div class="global-tooltip" id="global-tooltip">
+    <div class="tooltip-title" id="tt-title"></div>
+    <div><strong>הסבר:</strong> <span id="tt-desc"></span></div>
+    <div class="tooltip-example"><strong>דוגמה מעשית:</strong> <span id="tt-ex"></span></div>
 </div>
 
 <script>
@@ -681,78 +778,207 @@
         }
     };
 
+    const treeIcons = {
+        layers: "📚", infill: "🔳", skirt_brim: "🟧", supports: "🌲", speed: "⚡",
+        multiextruders: "🧩", advanced: "⚙️", output_options: "📤", dependencies: "🔗",
+        filament_general: "🎨", temperature: "🌡️", cooling: "❄️", overrides: "🛠️", customgcode: "📝",
+        general_printer: "🖨️", custom_gcode: "📝", machine_limits: "📏", extruder1: "💉"
+    };
+
+    const presetLabels = {
+        print: "0.20mm QUALITY @COREONE HF0.4",
+        filament: "Generic PLA @COREONE HF0.4",
+        printer: "COREONE HF0.4"
+    };
+
     let currentMainTab = 'print';
+
+    function hashStr(s) {
+        let h = 0;
+        for (let i = 0; i < s.length; i++) { h = (h << 5) - h + s.charCodeAt(i); h |= 0; }
+        return Math.abs(h);
+    }
+
+    const UNIT_TOKENS = [
+        ["מ\"מ/שנייה²", "mm/s²"], ["ממ\"ק/שנייה²", "mm³/s²"], ["מ\"מ/שנייה", "mm/s"],
+        ["ממ\"ק/שנייה", "mm³/s"], ["מ\"מ²", "mm²"], ["מעלות", "°C"], ["מ\"מ", "mm"],
+        ["%", "%"], ["שניות", "s"], ["גרם", "g"], ["ק\"ג", "kg"], ["°", "°"]
+    ];
+
+    function inferField(item, seedExtra) {
+        const seed = hashStr(item.name + seedExtra);
+        const nameEn = item.name.split('/')[0].trim().toLowerCase();
+        const dotColor = (seed % 10 < 3) ? 'red' : 'green';
+
+        if (nameEn === 'color' || nameEn === 'extruder color') {
+            const hue = seed % 360;
+            return { type: 'color', color: `hsl(${hue},55%,55%)`, dotColor };
+        }
+
+        const quoteMatch = /['"‘’]([A-Za-z][A-Za-z0-9 _\-\.]{1,24})['"’]/.exec(item.ex);
+        if (quoteMatch) {
+            return { type: 'select', value: quoteMatch[1], dotColor };
+        }
+
+        const numMatch = /(-?\d+(?:\.\d+)?)/.exec(item.ex);
+        if (numMatch) {
+            let unit = '';
+            for (const [token, short] of UNIT_TOKENS) {
+                if (item.ex.includes(token) || item.desc.includes(token)) { unit = short; break; }
+            }
+            return { type: 'number', value: numMatch[1], unit, dotColor };
+        }
+
+        const checked = !(item.desc.includes('לרוב כבוי') || item.desc.includes('לרוב לא') || (seed % 2 === 1));
+        return { type: 'checkbox', checked, dotColor };
+    }
+
+    function fieldHtml(field) {
+        if (field.type === 'checkbox') {
+            return `<input type="checkbox" ${field.checked ? 'checked' : ''} disabled>`;
+        }
+        if (field.type === 'select') {
+            return `<div class="field-select"><span>${field.value}</span><span class="arrow">▾</span></div>`;
+        }
+        if (field.type === 'color') {
+            return `<div class="field-color" style="background:${field.color}"></div>`;
+        }
+        return `<div class="field-number">
+                    <input type="text" value="${field.value}" disabled>
+                    <span class="spinner">▴▾</span>
+                </div>${field.unit ? `<span class="field-unit">${field.unit}</span>` : ''}`;
+    }
 
     function switchMainTab(tabKey) {
         currentMainTab = tabKey;
-        
+
         document.querySelectorAll('.main-tab-btn').forEach(btn => btn.classList.remove('active'));
         const activeBtn = Array.from(document.querySelectorAll('.main-tab-btn')).find(btn => btn.getAttribute('onclick').includes(tabKey));
         if (activeBtn) activeBtn.classList.add('active');
-        
+
+        document.getElementById('preset-name').innerHTML = `<span>${presetLabels[tabKey]}</span><span>▾</span>`;
+
         const sidebar = document.getElementById('sidebar-menu');
         sidebar.innerHTML = '';
-        
+
         const subtabs = database[tabKey].subtabs;
         const subtabKeys = Object.keys(subtabs);
-        
+
         subtabKeys.forEach((subKey, index) => {
             const btn = document.createElement('button');
             btn.className = 'sub-tab-btn';
             if (index === 0) btn.classList.add('active');
-            btn.innerText = subtabs[subKey].title;
+            btn.innerHTML = `<span class="tree-icon">${treeIcons[subKey] || '•'}</span><span>${subtabs[subKey].title}</span>`;
             btn.onclick = (e) => switchSubTab(subKey, e);
             sidebar.appendChild(btn);
         });
-        
+
         if (subtabKeys.length > 0) {
             switchSubTab(subtabKeys[0]);
         }
-        
-        // נקה חיפוש בעת מעבר לשונית ראשית
+
         document.getElementById('search-box').value = '';
     }
 
     function switchSubTab(subKey, event) {
         if (event) {
             document.querySelectorAll('.sub-tab-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
+            event.target.closest('.sub-tab-btn').classList.add('active');
         }
-        
+
         const settingsList = document.getElementById('settings-list');
         settingsList.innerHTML = '';
-        
+
         const items = database[currentMainTab].subtabs[subKey].data;
-        renderItems(items, settingsList);
+        renderItems(items, settingsList, false, subKey);
     }
 
-    function renderItems(items, container, showBadge = false) {
-        items.forEach(item => {
-            const row = document.createElement('tr');
+    function escapeAttr(str) {
+        return String(str).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+    }
+
+    // ---- Global tooltip: fixed position, computed on hover so it never gets clipped ----
+    const gTooltip = document.getElementById('global-tooltip');
+    const gTitle = document.getElementById('tt-title');
+    const gDesc = document.getElementById('tt-desc');
+    const gEx = document.getElementById('tt-ex');
+    let activeNameEl = null;
+
+    function showTooltip(el) {
+        activeNameEl = el;
+        el.classList.add('tt-open');
+        gTitle.textContent = el.dataset.ttTitle || '';
+        gDesc.textContent = el.dataset.ttDesc || '';
+        gEx.textContent = el.dataset.ttEx || '';
+
+        gTooltip.style.display = 'block';
+        gTooltip.style.visibility = 'hidden';
+
+        const rect = el.getBoundingClientRect();
+        const tw = gTooltip.offsetWidth;
+        const th = gTooltip.offsetHeight;
+        const margin = 10;
+
+        let left = rect.right - tw;
+        left = Math.max(8, Math.min(left, window.innerWidth - tw - 8));
+
+        let top;
+        if (rect.top - th - margin >= 8) {
+            top = rect.top - th - margin;
+        } else {
+            top = Math.min(rect.bottom + margin, window.innerHeight - th - 8);
+        }
+
+        gTooltip.style.left = left + 'px';
+        gTooltip.style.top = top + 'px';
+        gTooltip.style.visibility = 'visible';
+    }
+
+    function hideTooltip() {
+        if (activeNameEl) activeNameEl.classList.remove('tt-open');
+        activeNameEl = null;
+        gTooltip.style.display = 'none';
+    }
+
+    document.addEventListener('mouseover', function (e) {
+        const el = e.target.closest('.setting-name');
+        if (el && el !== activeNameEl) showTooltip(el);
+    });
+    document.addEventListener('mouseout', function (e) {
+        const el = e.target.closest('.setting-name');
+        if (el && (!e.relatedTarget || !e.relatedTarget.closest('.setting-name'))) hideTooltip();
+    });
+    document.querySelector('.content-area').addEventListener('scroll', hideTooltip);
+    window.addEventListener('resize', hideTooltip);
+
+    function renderItems(items, container, showBadge, seedExtra) {
+        items.forEach((item, idx) => {
+            const field = inferField(item, (seedExtra || '') + idx);
+            const row = document.createElement('div');
             row.className = 'setting-row';
-            
+
             let badgeHtml = '';
             if (showBadge && item.categoryTitle) {
                 badgeHtml = `<div class="search-badge">${item.categoryTitle}</div>`;
             }
-            
+
+            const ttTitle = (item.name.split('/')[1] || item.name).trim();
             row.innerHTML = `
-                <td>
-                    <div class="setting-name">
+                <span class="status-dot ${field.dotColor}"></span>
+                <div class="label-block">
+                    <span class="setting-name ${field.dotColor}"
+                          data-tt-title="${escapeAttr(ttTitle)}"
+                          data-tt-desc="${escapeAttr(item.desc)}"
+                          data-tt-ex="${escapeAttr(item.ex)}">
                         ${item.name}
-                        <div class="tooltip">
-                            <div class="tooltip-title">${item.name.split('/')[1]?.trim() || item.name}</div>
-                            <div><strong>הסבר:</strong> ${item.desc}</div>
-                            <div class="tooltip-example"><strong>דוגמה מעשית:</strong> ${item.ex}</div>
-                        </div>
-                    </div>
-                    <br>${badgeHtml}
-                </td>
-                <td style="color: #b9bbbe; font-size: 14px; line-height: 1.4;">
-                    ${item.desc}
-                </td>
+                    </span>
+                    ${badgeHtml}
+                </div>
+                <span class="lock-icon">🔒</span>
+                <span class="bullet-sep">•</span>
+                <div class="field-wrap">${fieldHtml(field)}</div>
             `;
-            
+
             container.appendChild(row);
         });
     }
@@ -760,9 +986,8 @@
     function handleSearch() {
         const query = document.getElementById('search-box').value.toLowerCase().trim();
         const settingsList = document.getElementById('settings-list');
-        
+
         if (query === '') {
-            // חזור למצב רגיל
             const activeSubTab = document.querySelector('.sub-tab-btn.active');
             if (activeSubTab) {
                 activeSubTab.click();
@@ -772,22 +997,19 @@
             return;
         }
 
-        // ביטול סימון בתפריט צד בזמן חיפוש
         document.querySelectorAll('.sub-tab-btn').forEach(btn => btn.classList.remove('active'));
         settingsList.innerHTML = '';
-        
+
         let results = [];
 
-        // חיפוש בכל מסד הנתונים
         for (const mainKey in database) {
             for (const subKey in database[mainKey].subtabs) {
                 const subtabData = database[mainKey].subtabs[subKey];
                 subtabData.data.forEach(item => {
-                    if (item.name.toLowerCase().includes(query) || 
-                        item.desc.toLowerCase().includes(query) || 
+                    if (item.name.toLowerCase().includes(query) ||
+                        item.desc.toLowerCase().includes(query) ||
                         item.ex.toLowerCase().includes(query)) {
-                        
-                        // יצירת עותק של הפריט כדי להוסיף לו תגית של המיקום
+
                         results.push({
                             ...item,
                             categoryTitle: `${database[mainKey].subtabs[subKey].title}`
@@ -798,19 +1020,16 @@
         }
 
         if (results.length > 0) {
-            renderItems(results, settingsList, true);
+            renderItems(results, settingsList, true, 'search');
         } else {
             settingsList.innerHTML = `
-                <tr>
-                    <td colspan="2" style="text-align:center; padding: 30px; color: var(--prusa-orange);">
-                        לא נמצאו תוצאות לחיפוש: "<strong>${query}</strong>"
-                    </td>
-                </tr>
+                <div style="text-align:center; padding: 30px; color: var(--prusa-orange);">
+                    לא נמצאו תוצאות לחיפוש: "<strong>${query}</strong>"
+                </div>
             `;
         }
     }
 
-    // הפעלה ראשונית של האתר
     switchMainTab('print');
 </script>
 
